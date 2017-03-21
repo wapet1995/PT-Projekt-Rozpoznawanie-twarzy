@@ -1,4 +1,4 @@
-# PT-Projekt-Rozpoznawanie-twarzy
+# Rozpoznawanie twarzy i śledzenie ruchu
 Autorzy:
 -------
 - Maciej Marciniak
