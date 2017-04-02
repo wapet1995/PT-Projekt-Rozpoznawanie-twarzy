@@ -1,0 +1,6 @@
+*.bak*
+*.lck
+*.aux
+*.log
+*.synctex.gz
+*.toc
