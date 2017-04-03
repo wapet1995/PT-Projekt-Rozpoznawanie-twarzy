@@ -1,12 +1,21 @@
-\documentclass[a4paper,12pt]{mwart}
+\documentclass[12pt,twoside,a4paper]{article}
 \usepackage{polski}
 \usepackage[cp1250]{inputenc}
-\usepackage{enumerate}
+\usepackage{mdwlist}
 \usepackage{graphicx} 
 \usepackage{indentfirst}
+\usepackage{setspace}
+\singlespacing 
+\setlength{\parindent}{25pt}
+\setlength{\parskip}{4pt}
+\pagestyle{plain}
+\hyphenation{Rozpoznawanie twarzy i œledzenie ruchu Podstawy Teleinformatyki}
+\frenchspacing
 
-\title{\emph{Projekt Podstawy Teleinformatyki \newline Rozpoznawanie twarzy i œledzenie ruchu}}
-\author{Maciej Marciniak, Damian Filipowicz}
+\title{
+	\begin{center}
+	\emph{Projekt Podstawy Teleinformatyki \newline Rozpoznawanie twarzy i œledzenie ruchu}	\end{center}}
+\author{Maciej Marciniak \and Damian Filipowicz}
 
 \begin{document}
 	\maketitle
@@ -16,15 +25,48 @@
 	\section{Wstêp}
 	Systemem rozpoznawania twarzy i œledzenia ruchu nazywamy komputer obs³uguj¹cy kamerê cyfrow¹ oraz program analizuj¹cy wykonane zdjêcie. Identyfikacja osoby odbywa siê przez odnalezienie na obrazie charakterystycznych cech oraz porównanie ich z klasyfikatorami znajduj¹cymi siê w bazie danych. 
 	
-	Œledzenie twarzy jest czêœci¹ mechanizmu rozpoznawania osób. Wœród wielu obiektów program wykrywa kontury twarzy po wczeœniejszym wyuczeniu algorytmu opartego o zbiór obrazów testowych.
+	Œledzenie twarzy jest czêœci¹ mechanizmu rozpoznawania osób. Wœród wielu obiektów program wykrywa kontury twarzy po wczeœniejszym wyuczeniu algorytmu opartego o zbiór obrazów testowych.	System posiadaæ bêdzie równie¿ dodatkow¹ funkcjonalnoœæ do zliczania osób, a dok³adniej twarzy, znajduj¹cych siê w danej chwili w obiektywie kamery.
 	
-	System posiadaæ bêdzie równie¿ dodatkow¹ funkcjonalnoœæ do zliczania osób, a dok³adniej twarzy, znajduj¹cych siê w danej chwili w obiektywie kamery.
-	
+	Projekt sk³adaæ siê bêdzie z 3 podstawowych elementów:
+	\begin{itemize*}
+		\item bazy danych MySQL,
+		\item mikrokomputera Raspberry Pi 3,
+		\item dedykowanej kamery Raspberry Pi 5Mpix.
+	\end{itemize*}
 	\section{Dlaczego rozpoznawanie twarzy}
-	Projekt realizowany jest w ramach przedmiotu Podstawy Teleinformatyki. Wybrano temat ,,Rozpoznawanie twarzy~i~œledzenie~ruchu'' z wielu ró¿nych mo¿liwoœci, poniewa¿ jest to mo¿liwoœæ poznania problematyki, która przyda siê nam w przygotowaniu siê do tworzenia pracy in¿ynierskiej. Identyfikacja osób jest form¹ zabezpieczeñ biometryczny, która jest œciœle zwi¹zana z dziedzin¹ bezpieczeñstwa systemów informatyczny, jednoczeœnie z wybran¹ przez nas specjalizacj¹ kierunku studiów.
+	Projekt realizowany jest w ramach przedmiotu Podstawy Teleinformatyki. Wybrano temat ,,Rozpoznawanie~twarzy~i~œledzenie~ruchu'' z wielu ró¿nych mo¿liwoœci, poniewa¿ jest to mo¿liwoœæ poznania problematyki, która przyda siê nam w przygotowaniu siê do tworzenia pracy in¿ynierskiej. Identyfikacja osób jest form¹ zabezpieczeñ biometryczny, która jest œciœle zwi¹zana z dziedzin¹ bezpieczeñstwa systemów informatyczny, jednoczeœnie z wybran¹ przez nas specjalizacj¹ kierunku studiów.
 	
 	\section{Wymagania}
 	\subsection{Wymagania funkcjonalne}
+	Podstawowymi wymaganiami jakie ma spe³niaæ projekt s¹:
+	\begin{itemize*}
+		\item œledzenie ruchu na podstawie wykrywania konturu twarzy,
+		\item zliczanie liczby osób znajduj¹cej siê w obiektywie,
+		\item rozpoznawanie twarzy oraz przypisanie danej osoby do pasuj¹cy zdjêæ \linebreak znajduj¹cych siê w bazie danych,
+		\item automatyczne uczenie siê rozpoznawania nowych osób.
+	\end{itemize*}
 	\subsection{Wymagania niefunkcjonalne}
-	\subsection{Wymagania sprzêtowe}	
+	Zak³ada siê nastêpuj¹ce wymagania niefunkcjonalne systemu:
+	\begin{itemize*}
+		\item szerokoœæ widzenia obiektywu to 70 stopni,
+		\item ograniczona pamiêæ bazy danych do 32GB (pojemnoœæ karty pamiêci),
+		\item oprogramowanie zgodne z urz¹dzeniem Raspberry Pi,
+		\item wymagany interpreter jêzyka Python w wersji 2.7.
+	\end{itemize*}
+	\subsection{Wymagania sprzêtowe}
+	
+		\begin{itemize*}
+		\item szerokoœæ widzenia obiektywu to 70 stopni,
+		\item ograniczona pamiêæ bazy danych do 32GB (pojemnoœæ karty pamiêci),
+		\item oprogramowanie zgodne z urz¹dzeniem Raspberry Pi,
+		\item wymagany interpreter jêzyka Python w wersji 2.7.
+	\end{itemize*}
+	\section{Organizacja pracy}
+	\subsection{Podzia³ pracy}
+	\subsection{Harmonogram pracy}
+	
+	\section{Algorytmy rozpoznawania twarzy}
+	\subsection{EigenFace}
+	\subsection{FisherFace}
+	
 \end{document}
