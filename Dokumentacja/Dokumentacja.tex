@@ -4,6 +4,8 @@
 \usepackage{mdwlist}
 \usepackage{graphicx} 
 \usepackage{indentfirst}
+\usepackage{hyperref} 
+\usepackage{color}
 \usepackage{setspace}
 \singlespacing 
 \setlength{\parindent}{25pt}
@@ -59,13 +61,43 @@
 			\item mikrokomputer Raspberry Pi 3,
 			\item system operacyjny rasbian-jessie dla Raspberry Pi,
 			\item dowolna dedykowana kamera Raspberry Pi,
+			\item zasilacz micro USB 5V co najmniej 2A,
 			\item karta pamiêci micro SD minimum 32Gb klasy 10.
+	\end{itemize*}
+	\subsection{Œrodowisko pracy}
+	\begin{itemize*}
+		\item jêzyk programowania Python 2.7,
+		\item Linux rasbian-jessie,
+		\item IDE PyCharm,
+		\item dokumentacja Latex.
 	\end{itemize*}
 
 	\section{Organizacja pracy}
+	Link do repozytorium GitHub: \textcolor{blue}{\href{https://github.com/wapet1995/PT-Projekt-Rozpoznawanie-twarzy}{Rozpoznawanie twarzy i œledzenie ruchu}}
 	\subsection{Podzia³ pracy}
+	Zadania Damiana Filipowicza:
+	\begin{itemize*}
+		\item zapoznanie siê z algorytmem EigenFace,
+		\item implementacja rozpoznawania twarzy na obrazie,
+		\item utworzenie bazy danych zawieraj¹cej osoby do rozpoznania,
+		\item przygotowanie korpusu zdjêæ do wytrenowania klasyfikatora.
+	\end{itemize*}
+	Zadania Macieja Marciniaka:
+	\begin{itemize*}
+		\item zapoznanie siê z algorytmem FischerFace,
+		\item prowadzenie dokumentacji projektu,
+		\item implementacja wykrywania i zliczania twarzy na obrazie,
+		\item implementacja mechanizmu rozbudowy korpusu trenuj¹cego \linebreak klasyfikator.
+	\end{itemize*}
 	\subsection{Harmonogram pracy}
-	
+	Przygotowano orientacyjny harmonogram pracy roz³o¿ony na wszystkie zajêcia projektowe. Wyszczególniono zadania jak równie¿ osobê/osoby \linebreak zajmuj¹ce siê danym fragmentem. Zobrazowano  harmonogram \linebreak na Rysunku~\ref{fig:harmonogram_prac}.
+	\begin{figure}
+		\centering
+		\vspace{-50pt}
+		\includegraphics[width=16cm]{harmonogram_prac.png}
+		\caption{Harmonogram prac}
+		\label{fig:harmonogram_prac}
+	\end{figure}
 	\section{Algorytmy rozpoznawania twarzy}
 	\subsection{EigenFace}
 	\subsection{FisherFace}
