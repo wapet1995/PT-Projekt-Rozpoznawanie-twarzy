@@ -11,7 +11,7 @@
 \setlength{\parindent}{25pt}
 \setlength{\parskip}{4pt}
 \pagestyle{plain}
-\hyphenation{Rozpoznawanie twarzy i œledzenie ruchu Podstawy Teleinformatyki}
+\hyphenation{Rozpoznawanie twarzy i œledzenie ruchu Podstawy Teleinformatyki EigenFace FisherFace}
 \frenchspacing
 
 \title{
@@ -84,24 +84,30 @@
 	\end{itemize*}
 	Zadania Macieja Marciniaka:
 	\begin{itemize*}
-		\item zapoznanie siê z algorytmem FischerFace,
+		\item zapoznanie siê z algorytmem FisherFace,
 		\item prowadzenie dokumentacji projektu,
 		\item implementacja wykrywania i zliczania twarzy na obrazie,
 		\item implementacja mechanizmu rozbudowy korpusu trenuj¹cego \linebreak klasyfikator.
 	\end{itemize*}
 	\subsection{Harmonogram pracy}
 	Przygotowano orientacyjny harmonogram pracy roz³o¿ony na wszystkie zajêcia projektowe. Wyszczególniono zadania jak równie¿ osobê/osoby \linebreak zajmuj¹ce siê danym fragmentem. Zobrazowano  harmonogram \linebreak na Rysunku~\ref{fig:harmonogram_prac}.
-	\begin{figure}
+	\begin{figure}[h]
 		\centering
-		\vspace{-50pt}
 		\includegraphics[width=16cm]{harmonogram_prac.png}
 		\caption{Harmonogram prac}
 		\label{fig:harmonogram_prac}
 	\end{figure}
+\newpage
 	\section{Algorytmy rozpoznawania twarzy}
 	\subsection{EigenFace}
 	\input{EigenFace.tex}
 	\subsection{FisherFace}
 	\input{FisherFace.tex}
-	
+	Podsumowuj¹c algorytm FisherFace obarczony jest mniejszym stopniem b³êdów ni¿ EigenFace. Na Rysunku \ref{fig:wykres_algorytmow} przedstawiono wykres efektywnoœci wybranych algorytmów, jak mo¿na zauwa¿yæ najbardziej zawodny jest EigenFace, zaœ bezkonkurencyjny FisherFace. Najlepsza implementacja przy pe³nym widoku twarzy ma poziom b³êdów rzêdu 1\% w porównaniu do blisko 25\% EigenFace.
+	\begin{figure}[!h]
+		\centering
+		\includegraphics[width=12cm]{wykres_algorytmow.png}
+		\caption{Wykres efektywnoœci algorytmów rozpoznawania twarzy}
+		\label{fig:wykres_algorytmow}
+	\end{figure}
 \end{document}
