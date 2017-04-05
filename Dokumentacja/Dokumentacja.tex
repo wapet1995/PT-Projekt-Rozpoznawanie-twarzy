@@ -103,6 +103,8 @@
 	\input{EigenFace.tex}
 	\subsection{FisherFace}
 	\input{FisherFace.tex}
+	\newpage
+	\subsection{Wybór algorytmu}
 	Podsumowuj¹c algorytm FisherFace obarczony jest mniejszym stopniem b³êdów ni¿ EigenFace. Na Rysunku \ref{fig:wykres_algorytmow} przedstawiono wykres efektywnoœci wybranych algorytmów, jak mo¿na zauwa¿yæ najbardziej zawodny jest EigenFace, zaœ bezkonkurencyjny FisherFace. Najlepsza implementacja przy pe³nym widoku twarzy ma poziom b³êdów rzêdu 1\% w porównaniu do blisko 25\% EigenFace.
 	\begin{figure}[!h]
 		\centering
@@ -110,4 +112,6 @@
 		\caption{Wykres efektywnoœci algorytmów rozpoznawania twarzy}
 		\label{fig:wykres_algorytmow}
 	\end{figure}
+	
+	Zak³adaj¹c znacznie mniejsze zu¿ycie pamiêci i oszczêdnoœæ obliczeñ algorytmy EigenFace ni¿ FisherFace, zale¿y jednak nam podczas realizacji projektu, by poziom b³êdów by³ jak najni¿szy. Projekt zostanie realizowany algorytmem FisherFace.
 \end{document}
