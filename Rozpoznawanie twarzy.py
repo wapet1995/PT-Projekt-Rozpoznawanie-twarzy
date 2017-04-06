@@ -1,24 +1,18 @@
-import picamera
-from time import sleep
+# -*- coding: utf-8 -*-
+import picamera  # zaimportowanie biblioteki obsługującej kamerę
+from time import sleep  # zaimportowanie biblioteki czasu
 
-camera = picamera.PiCamera()
+camera = picamera.PiCamera()  # utworzenie obiektu kamery
 
-camera.sharpness = 0
-camera.contrast = 0
-camera.brightness = 50
-camera.saturation = 0
-camera.ISO = 0
-camera.video_stabilization = False
-camera.exposure_compensation = 0
-camera.exposure_mode = 'auto'
-camera.meter_mode = 'average'
-camera.awb_mode = 'auto'
-camera.image_effect = 'none'
-camera.color_effects = None
-camera.rotation = 180
-camera.hflip = False
-camera.vflip = False
-camera.crop = (0.0, 0.0, 1.0, 1.0)
+# ustawienie parametrów kamery
+camera.sharpness = 0                # ostrość
+camera.contrast = 0                 # kontrast
+camera.brightness = 50              # jasność
+camera.ISO = 0                      # ISO
+camera.video_stabilization = False  # stabilizcja obrazu wideo
+camera.image_effect = 'none'        # efekty obrazu
+camera.color_effects = None         # kolor obrazu
+camera.rotation = 180               # kąt obrotu obrazu
 
 while True:
     camera.capture('image.jpg')
