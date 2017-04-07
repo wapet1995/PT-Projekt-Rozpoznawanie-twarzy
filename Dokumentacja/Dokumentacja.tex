@@ -1,18 +1,35 @@
-\documentclass[12pt,twoside,a4paper]{article}
+\documentclass[12pt,a4paper]{article}
 \usepackage{polski}
 \usepackage[cp1250]{inputenc}
 \usepackage{mdwlist}
-\usepackage{graphicx} 
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{geometry}
+ \geometry{
+	a4paper,
+	total={170mm,257mm},
+	left=30mm,
+	right=30mm,
+	top=20mm,
+}
 \usepackage{indentfirst}
 \usepackage{hyperref} 
+\hypersetup{
+	colorlinks=true,
+	linkcolor=black,
+	filecolor=magenta,      
+	urlcolor=cyan,
+}
 \usepackage{color}
 \usepackage{setspace}
 \singlespacing 
 \setlength{\parindent}{25pt}
 \setlength{\parskip}{4pt}
 \pagestyle{plain}
-\hyphenation{Rozpoznawanie twarzy i œledzenie ruchu Podstawy Teleinformatyki EigenFace FisherFace}
+\hyphenation{Rozpoznawanie twarzy i œledzenie ruchu Podstawy Teleinformatyki EigenFace FisherFace danych}
 \frenchspacing
+\widowpenalty=10000
+\clubpenalty=10000
 
 \title{
 	\begin{center}
@@ -24,7 +41,7 @@
 	\newpage 
 	\tableofcontents
 	\newpage 
-	\section{Wstêp}
+	\section*{Wstêp}
 	Systemem rozpoznawania twarzy i œledzenia ruchu nazywamy komputer obs³uguj¹cy kamerê cyfrow¹ oraz program analizuj¹cy wykonane zdjêcie. Identyfikacja osoby odbywa siê przez odnalezienie na obrazie charakterystycznych cech oraz porównanie ich z klasyfikatorami znajduj¹cymi siê w bazie danych. 
 	
 	Œledzenie twarzy jest czêœci¹ mechanizmu rozpoznawania osób. Wœród wielu obiektów program wykrywa kontury twarzy po wczeœniejszym wyuczeniu algorytmu opartego o zbiór obrazów testowych.	System posiadaæ bêdzie równie¿ dodatkow¹ funkcjonalnoœæ do zliczania osób, a dok³adniej twarzy, znajduj¹cych siê w danej chwili w obiektywie kamery.
@@ -47,8 +64,8 @@
 		\item rozpoznawanie twarzy oraz przypisanie danej osoby do pasuj¹cy zdjêæ \linebreak znajduj¹cych siê w bazie danych,
 		\item automatyczne uczenie siê rozpoznawania nowych osób.
 	\end{itemize*}
-	\subsection{Wymagania poza funkcjonalne}
-	Zak³ada siê nastêpuj¹ce wymagania poza funkcjonalne systemu:
+	\subsection{Wymagania pozafunkcjonalne}
+	Zak³ada siê nastêpuj¹ce wymagania pozafunkcjonalne systemu:
 	\begin{itemize*}
 		\item szerokoœæ widzenia obiektywu to 70 stopni,
 		\item ograniczona pamiêæ bazy danych do 32GB (pojemnoœæ karty pamiêci),
@@ -69,7 +86,7 @@
 		\item jêzyk programowania Python 2.7,
 		\item Linux rasbian-jessie,
 		\item IDE PyCharm,
-		\item dokumentacja Latex.
+		\item Latex.
 	\end{itemize*}
 
 	\section{Organizacja pracy}
@@ -97,13 +114,11 @@
 		\caption{Harmonogram prac}
 		\label{fig:harmonogram_prac}
 	\end{figure}
-\newpage
 	\section{Algorytmy rozpoznawania twarzy}
 	\subsection{EigenFace}
 	\input{EigenFace.tex}
 	\subsection{FisherFace}
 	\input{FisherFace.tex}
-	\newpage
 	\subsection{Wybór algorytmu}
 	Podsumowuj¹c algorytm FisherFace obarczony jest mniejszym stopniem b³êdów ni¿ EigenFace. Na Rysunku \ref{fig:wykres_algorytmow} przedstawiono wykres efektywnoœci wybranych algorytmów, jak mo¿na zauwa¿yæ najbardziej zawodny jest EigenFace, zaœ bezkonkurencyjny FisherFace. Najlepsza implementacja przy pe³nym widoku twarzy ma poziom b³êdów rzêdu 1\% w porównaniu do blisko 25\% EigenFace.
 	\begin{figure}[!h]
@@ -113,5 +128,5 @@
 		\label{fig:wykres_algorytmow}
 	\end{figure}
 	
-	Zak³adaj¹c znacznie mniejsze zu¿ycie pamiêci i oszczêdnoœæ obliczeñ algorytmy EigenFace ni¿ FisherFace, zale¿y jednak nam podczas realizacji projektu, by poziom b³êdów by³ jak najni¿szy. Projekt zostanie realizowany algorytmem FisherFace.
+	Zak³adaj¹c znacznie mniejsze zu¿ycie pamiêci i oszczêdnoœæ obliczeñ algorytmu EigenFace w porównaniu do FisherFace jest to algorytm mniej obci¹¿aj¹cy mikrokomputer Raspberry. Zale¿y jednak nam podczas realizacji projektu, by poziom b³êdów by³ jak najni¿szy, wiêc do rozpoznawaniu twarzy u¿yjemy algorytmu FisherFace.
 \end{document}
