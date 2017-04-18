@@ -1,0 +1,10 @@
+Innym podejœciem rozpoznawania twarzy ni¿ EigenFace jest algorytm FisherFace. Jak mogliœmy zaobserwowaæ w ramach poprzedniego algorytmu \linebreak jego podstawowym celem by³o zmaksymalizowanie wartoœci wariancji \linebreak w ramach naszej bazy danych (tak by próbki by³y znacznie ró¿ne \linebreak od innych), natomiast w przypadku podejœcia zaproponowanego w ramach algorytmu FisherFace za cel stawiane jest maksymalizacja œredniego dystansu \linebreak pomiêdzy ró¿nymi klasami oraz zminimalizowanie wariancji \linebreak wewn¹trzklasowej. Sposobem, który doprowadza do uzyskania takich warunków jest u¿ycie liniowej metody znanej pod nazw¹ liniowej analizy \linebreak dyskryminacyjnej (Fisher's Linear Discriminant - FLD). Obraz twarzy sk³adaj¹cy siê z bardzo du¿ej liczby pikseli jest redukowany do mniejszego zbioru linowych kombinacji, które mog¹ nastêpnie wykorzystane s¹ do klasyfikacji. 
+
+Na algorytm FLD sk³ada siê 5 g³ównych etapów:
+\begin{enumerate*}
+	\item Oblicz œredni¹ D-wymiarow¹ wektorów dla ró¿nych klas z zestawu danych.
+	\item Oblicz macierze rozproszone (matryca rozproszona w klasach i wewn¹trz klasy).
+	\item Obliczyæ wektory w³asne (eigenfaces) ($ e_{1}, e_{2},..., e_{d}$) i odpowiadaj¹ce \linebreak im wartoœci w³asne ($\lambda_{1}, \lambda_{2},...,\lambda_{d} $) dla matryc rozproszonych.
+	\item Sortuj wektory w³asne, zmniejszaj¹c wartoœci w³asne i wybierz w³asne wektory \textbf{k} z najwiêkszymi wartoœciami w³asnymi, aby utworzyæ \linebreak matrycê wymiarow¹ \textbf{d} $ × $ \textbf{k} \textbf{\textit{W}} (gdzie ka¿da kolumna reprezentuje \linebreak wektor osobisty).
+	\item U¿yj tej matrycy w³asnej \textbf{d} $× $\textbf{k}, aby przekszta³ciæ próbki w now¹ podprzestrzeñ. Mo¿na to podsumowaæ przez pomno¿enie matrycy: \textbf{Y} $= $\textbf{X} $× $\textbf{W} (gdzie \textbf{X} jest macierz¹ o wymiarach \textbf{n} $×  $\textbf{d} reprezentuj¹c¹ próbki \textbf{n}, a y s¹ transformowanymi próbkami o wymiarach \textbf{n} $×  $\textbf{k} w nowej podprzestrzeni).
+\end{enumerate*}
