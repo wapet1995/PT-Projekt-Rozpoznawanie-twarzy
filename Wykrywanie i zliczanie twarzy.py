@@ -10,11 +10,14 @@ import thread
 camera = PiCamera(
     resolution=(640, 480))
 camera.iso = 800
-camera.framerate = 90
 camera.led = False
 rawCapture = PiRGBArray(camera, size=(640, 480))
 camera.rotation = 180
-camera.brightness = 60
+camera.brightness = 55
+camera.framerate =  24          # w ciemnosci 0.5,          w dzien 24
+camera.color_effects = None     # w ciemnosci (128,128),    w dzien None
+camera.exposure_mode = 'auto'   # w ciemnosci night,        w dzien auto
+camera.shutter_speed = 6000000
 time.sleep(0.25)
 
 camera.start_preview()
@@ -40,9 +43,9 @@ def detect_faces():
     global faces
     while True:
         # przekonwertuj na odcienie szarosci
-        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        #gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         # wykryj twarze
-        faces = face_cascade.detectMultiScale(gray, 1.2, 6)
+        faces = face_cascade.detectMultiScale(frame, 1.2, 6)
         # wyroznij twarze umieszczajac je w ramkach
         for (x, y, w, h) in faces:
             cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
