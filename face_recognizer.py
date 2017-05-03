@@ -12,7 +12,7 @@ faceCascade = cv2.CascadeClassifier(cascadePath)
 recognizer = cv2.createFisherFaceRecognizer()
 #recognizer = cv2.createEigenFaceRecognizer()
 #recognizer = cv2.createLBPHFaceRecognizer()
-x1 = 250
+x1 =250
 y1 =250
 def get_images_and_labels(path):
     # format pliku (nazwa twarzy [subjectNUMER] po kropce wyraz twarzy
@@ -30,16 +30,16 @@ def get_images_and_labels(path):
         # uzyskanie numeru twarzy z nazwy pliku
         nbr = int( image_path[20:22])
         # wykrycie twarzy na zdjeciu (skopiowane od Macieja
-        faces = faceCascade.detectMultiScale(image, 1.1, 6)
+        faces = faceCascade.detectMultiScale(image)
         #faces = faceCascade.detectMultiScale(image)
         # na wykrytej twarzy
         for (x, y, w, h) in faces:
-            # dodanie twarzy + zmniejszenie do rozmiarow 150 x 150
             images.append(image[y: y + y1, x: x + x1])
+            print(image_path)
             #dodanie etykiety
             labels.append(nbr)
             #wyswietlenie dodanej twarzy
-            cv2.imshow("Adding faces to traning set...", image[y: y + y1, x: x + x1])
+            #cv2.imshow("Adding faces to traning set...", image[y: y + y1, x: x + x1])
             cv2.waitKey(50)
     return images, labels
 
@@ -57,26 +57,29 @@ recognizer.train(images, np.array(labels))
 image_paths = [os.path.join(path, f) for f in os.listdir(path) if f.endswith('.test')]
 for image_path in image_paths:
     predict_image_pil = Image.open(image_path).convert('L')
+    print(image_path)
     predict_image = np.array(predict_image_pil, 'uint8')
-    faces = faceCascade.detectMultiScale(predict_image, 1.1, 6)
+
+    faces = faceCascade.detectMultiScale(predict_image)
+
     for (x, y, w, h) in faces:
         cropped = predict_image[y: y + y1, x: x + x1].copy()
         nbr_predicted, conf = recognizer.predict(cropped)
         nbr_actual = int( image_path[20:22])
         if nbr_actual == nbr_predicted:
-            print "{} poprawnie rozpoznane z dokladnoscia (im mniej tym lepiej) {}".format(nbr_actual, conf)
+            print "{} poprawnie rozpoznane z dokladnoscia ) {}".format(nbr_actual, conf)
         else:
             print "{} niepoprawne rozpoznanie {}".format(nbr_actual, nbr_predicted)
         cv2.imshow("twarz ktora probowano rozpoznac", predict_image[y: y + y1, x: x + x1])
         cv2.waitKey(1000)
 
 
-def face_recognition(Image):
- x1 = 250
- y1 =250
- predict_image_pil = Image.convert('L')
- predict_image = np.array(predict_image_pil, 'uint8')
- faces = faceCascade.detectMultiScale(predict_image)
- for (x, y, w, h) in faces:
-     cropped = predict_image[y: y + y1, x: x + x1].copy()
-     nbr_predicted, conf = recognizer.predict(cropped)
+#def face_recognition(Image):
+# x1 = 250
+# y1 =250
+# predict_image_pil = Image.convert('L')
+# predict_image = np.array(predict_image_pil, 'uint8')
+# faces = faceCascade.detectMultiScale(predict_image)
+# for (x, y, w, h) in faces:
+#     cropped = predict_image[y: y + y1, x: x + x1].copy()
+#     nbr_predicted, conf = recognizer.predict(cropped)
