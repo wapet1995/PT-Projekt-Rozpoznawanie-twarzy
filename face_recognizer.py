@@ -41,7 +41,7 @@ def get_images_and_labels(path):
             # dodanie etykiety
             labels.append(nbr)
             # wyswietlenie dodanej twarzy
-            cv2.imshow("Adding faces to traning set...", image[y: y + hight_face, x: x + witdh_face])
+            cv2.imshow("Dodawanie zdjęć", image[y: y + hight_face, x: x + witdh_face])
     return images, labels
 
 

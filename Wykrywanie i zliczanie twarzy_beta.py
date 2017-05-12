@@ -30,6 +30,7 @@ time.sleep(2)
 ''' inicjacja zmiennych globalnych
 ----------------------------------------------------------------------------------------'''
 faces = []  # tablica przechowujaca wykryte twarze
+gray = None
 is_dark = 0  # zmienna oznaczajaca czy jest ciemno
 
 # ustalenie pierwszej klatki z kamery
@@ -60,6 +61,7 @@ def make_frame():
 def detect_faces():
     global frame
     global faces
+    global gray
     while True:
         # przekonwertuj na odcienie szarosci
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -73,17 +75,20 @@ def detect_faces():
 if __name__ == '__main__':
     thread.start_new_thread(make_frame, ())
     thread.start_new_thread(detect_faces, ())
-    recognizer.load("wytrenowany_plik.mdl")
     while True:
         if len(faces) == 0:
-            cv2.putText(frame, "Wykryte: {} twarze".format(0), (10, 20),
+            cv2.putText(frame, "Nie wykryto twarzy", (10, 20),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
         else:
             # wyroznij twarze umieszczajac je w ramkach
             for (x, y, w, h) in faces:
+                cropped = gray[y: y + hight_face, x: x + witdh_face].copy()
+                nbr_predicted, conf = recognizer.predict(cropped)
                 cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+                cv2.putText(frame, nbr_predicted + " " + conf, (10, 20),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
             # dodaj do klatki tekst mowiacy o ilosci wykrytych twarzy
-            cv2.putText(frame, "Nie wykryto twarzy", (10, 20),
+            cv2.putText(frame, "Wykryte: {} twarze".format(len(faces)), (10, 20),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
         cv2.imshow("Wykrywanie twarzy", frame)
         # zamykanie programu po wcisnieciu ESC
