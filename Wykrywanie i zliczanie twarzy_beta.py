@@ -16,10 +16,10 @@ face_cascade = cv2.CascadeClassifier("haarcascade_frontalface_alt.xml")
 
 ''' inicjalizacja parametrow kamery
 ----------------------------------------------------------------------------------------'''
-camera = PiCamera(resolution=(640, 480))  # ustawienie wymiarow obrazu
+camera = PiCamera(resolution=(1088, 640))  # ustawienie wymiarow obrazu
 camera.iso = 800
 camera.led = False
-rawCapture = PiRGBArray(camera, size=(640, 480))
+rawCapture = PiRGBArray(camera, size=(1088, 640))
 camera.rotation = 180
 camera.brightness = 55
 camera.framerate = 24  # w ciemnosci 0.5,          w dzien 24
@@ -74,35 +74,37 @@ def detect_faces():
 '''  MAIN
 ----------------------------------------------------------------------------------------'''
 if __name__ == '__main__':
-    thread.start_new_thread(make_frame, ())
-    thread.start_new_thread(detect_faces, ())
-    recognizer.load("wytrenowany_plik.mdl")
-    while True:
-        if len(faces) == 0:
-            cv2.putText(frame, "Nie wykryto twarzy", (10, 20),
-                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
-        else:
-            # wyroznij twarze umieszczajac je w ramkach
-            for (x, y, w, h) in faces:
-                cropped = gray[y: y + hight_face, x: x + witdh_face].copy()
-                nbr_predicted, conf = recognizer.predict(cropped)
-                cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
-                conn = MySQLdb.connect(host="localhost", user="root", passwd="inteligentnyzamek", db="Rozpoznawanie_twarzy_db")
-                c = conn.cursor()
-                c.execute("SELECT * FROM Osoby where LABEL = '%d'" % nbr_predicted)
-                person = c.fetchall()
-                cv2.putText(frame, str(person[0][1]) + " " + str(person[0][2]), (x + 5, y + 15),
-                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
-                cv2.putText(frame, str(conf), (x + 5, y + h - 5),
-                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
-            # dodaj do klatki tekst mowiacy o ilosci wykrytych twarzy
-            cv2.putText(frame, "Wykryte: {} twarze".format(len(faces)), (10, 20),
-                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
-        cv2.imshow("Wykrywanie twarzy", frame)
-        key = cv2.waitKey(10)
-        if key == 27:
-            cv2.destroyWindow("Wykrywanie twarzy")
-            break
-    camera.stop_preview()
-    cv2.destroyAllWindows()
-    sys.exit()
+    try:
+        thread.start_new_thread(make_frame, ())
+        thread.start_new_thread(detect_faces, ())
+        recognizer.load("wytrenowany_plik.mdl")
+        while True:
+            if len(faces) == 0:
+                cv2.putText(frame, "Nie wykryto twarzy", (10, 20),
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
+            else:
+                # wyroznij twarze umieszczajac je w ramkach
+                for (x, y, w, h) in faces:
+                    cropped = gray[y: y + hight_face, x: x + witdh_face].copy()
+                    nbr_predicted, conf = recognizer.predict(cropped)
+                    cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+                    conn = MySQLdb.connect(host="localhost", user="root", passwd="inteligentnyzamek", db="Rozpoznawanie_twarzy_db")
+                    c = conn.cursor()
+                    c.execute("SELECT * FROM Osoby where LABEL = '%d'" % nbr_predicted)
+                    person = c.fetchall()
+                    cv2.putText(frame, str(person[0][1]) + " " + str(person[0][2]), (x + 5, y + 15),
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
+                    cv2.putText(frame, str(conf), (x + 5, y + h - 5),
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
+                # dodaj do klatki tekst mowiacy o ilosci wykrytych twarzy
+                cv2.putText(frame, "Wykryte: {} twarze".format(len(faces)), (10, 20),
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
+            cv2.imshow("Wykrywanie twarzy", frame)
+            key = cv2.waitKey(10)
+            if key == 27:
+                cv2.destroyWindow("Wykrywanie twarzy")
+                break
+    except Exception:
+        camera.stop_preview()
+        cv2.destroyAllWindows()
+        sys.exit()
