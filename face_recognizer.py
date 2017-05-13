@@ -8,9 +8,9 @@ from PIL import Image
 cascadePath = "haarcascade_frontalface_alt.xml"
 faceCascade = cv2.CascadeClassifier(cascadePath)
 
-recognizer = cv2.createFisherFaceRecognizer()
+#recognizer = cv2.createFisherFaceRecognizer()
 # recognizer = cv2.createEigenFaceRecognizer()
-# recognizer = cv2.createLBPHFaceRecognizer()
+recognizer = cv2.createLBPHFaceRecognizer()
 
 witdh_face = 250
 hight_face = 250
@@ -31,6 +31,7 @@ def get_images_and_labels(path):
         image = np.array(image_pil, 'uint8')
         # uzyskanie numeru twarzy z nazwy pliku
         nbr = int(image_path[20:22])
+        image = cv2.equalizeHist(image)
         # wykrycie twarzy na zdjeciu (skopiowane od Macieja
         faces = faceCascade.detectMultiScale(image)
         # faces = faceCascade.detectMultiScale(image)
@@ -41,7 +42,8 @@ def get_images_and_labels(path):
             # dodanie etykiety
             labels.append(nbr)
             # wyswietlenie dodanej twarzy
-            cv2.imshow("Dodawanie zdjęć", image[y: y + hight_face, x: x + witdh_face])
+            cv2.imshow("Adding faces to traning set...", image[y: y + hight_face, x: x + witdh_face])
+            cv2.waitKey(50)
     return images, labels
 
 
@@ -50,13 +52,13 @@ if __name__ == '__main__':
     path = './testowe_zdjecia'
     # Call the get_images_and_labels function and get the face images and the
     # corresponding labels
-    '''images, labels = get_images_and_labels(path)
+    images, labels = get_images_and_labels(path)
     cv2.destroyAllWindows()
-
+    recognizer.load("wytrenowany_plik_LBPH.mdl")
     # wykonanie treningu
-    recognizer.train(images, np.array(labels))
-    recognizer.save("wytrenowany_plik.mdl")'''
-    recognizer.load("wytrenowany_plik.mdl")
+    recognizer.update(images, np.array(labels))
+    recognizer.save("wytrenowany_plik_LBPH.mdl")
+    #recognizer.load("wytrenowany_plik.mdl")
 
     image_paths = [os.path.join(path, f) for f in os.listdir(path) if f.endswith('.test')]
     for image_path in image_paths:
@@ -74,4 +76,5 @@ if __name__ == '__main__':
                 print "{} poprawnie rozpoznane z dokladnoscia ) {}".format(nbr_actual, conf)
             else:
                 print "{} niepoprawne rozpoznanie {}".format(nbr_actual, nbr_predicted)
-            cv2.imshow("twarz ktora probowano rozpoznac", predict_image[y: y + hight_face, x: x + witdh_face])
+            cv2.imshow("twarz ktora probowano rozpoznac", predict_image)
+            cv2.waitKey(0)
