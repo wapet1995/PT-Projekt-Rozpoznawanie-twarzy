@@ -32,7 +32,7 @@ path_photos = 'baza_zdjec' # nazwa folderu przechowujacego baze zdjec
 # funkcja odpowiedzialna za dodawanie zdjec danej osoby do treningu
 def add_image(images, labels, choise = "camera"):
     if choise == "camera":
-        name = raw_input("Podaj imię: ")
+        name = raw_input("Podaj imie: ")
         surname = raw_input("Podaj nazwisko: ")
 
         # polaczenie z baza danych
@@ -41,11 +41,11 @@ def add_image(images, labels, choise = "camera"):
             c = conn.cursor()
             c.execute("SELECT LABEL FROM Osoby WHERE NAME = %s and SURNAME = %s", (name, surname))
             if c.rowcount == 0:
-                print "Dodaję użytkownika do bazy danych: " + name + " " + surname
+                print "Dodaje uzytkownika do bazy danych: " + name + " " + surname
                 c.execute("INSERT INTO Osoby(NAME, SURNAME) VALUES (%s,%s)", (name, surname))
                 c.execute("SELECT LABEL FROM Osoby WHERE NAME = %s and SURNAME = %s", (name, surname))
         except:
-            raw_input("Problem z połączeniem z bazą danych. Proszę naprawić połączenie i spróbować ponownie")
+            raw_input("Problem z polaczeniem z bazz danych. Prosze naprawic polaczenie i sprobowac ponownie")
             sys.exit(0)
         label = c.fetchone()[0]
         conn.close()
@@ -106,7 +106,7 @@ def add_image(images, labels, choise = "camera"):
             if photo_counter >= 10:
                 cv2.destroyAllWindows()
                 camera.release()
-                key = raw_input("Czy chcesz ponownie dodać swoje zdjęcia?: T/N")
+                key = raw_input("Czy chcesz ponownie dodac swoje zdjecia?: T/N \nwybor: ")
                 while True:
                     if key == "t" or key == "T":
                         camera = cv2.VideoCapture(0)
@@ -121,11 +121,9 @@ def add_image(images, labels, choise = "camera"):
     else:
         images, labels = get_new_images_and_labels(images, labels, choise)
     return images, labels
-    # dodalismy zdjecia mozna przejsc do innej funkcji z treningiem
-
 
 def get_new_images_and_labels(images, labels, path):
-    name = raw_input("Podaj imię: ")
+    name = raw_input("Podaj imie: ")
     surname = raw_input("Podaj nazwisko: ")
     # polaczenie z baza danych
     try:
@@ -134,11 +132,11 @@ def get_new_images_and_labels(images, labels, path):
         c = conn.cursor()
         c.execute("SELECT LABEL FROM Osoby WHERE NAME = %s and SURNAME = %s", (name, surname))
         if c.rowcount == 0:
-            print "Dodaję użytkownika do bazy danych: " + name + " " + surname
+            print "Dodaje uzytkownika do bazy danych: " + name + " " + surname
             c.execute("INSERT INTO Osoby(NAME, SURNAME) VALUES (%s,%s)", (name, surname))
             c.execute("SELECT LABEL FROM Osoby WHERE NAME = %s and SURNAME = %s", (name, surname))
     except:
-        raw_input("Problem z połączeniem z bazą danych. Proszę naprawić połączenie i spróbować ponownie")
+        raw_input("Problem z polaczeniem z baza danych. Prosza naprawic polaczenie i sprobowac ponownie")
         sys.exit(0)
     label = c.fetchone()[0]
     conn.close()
@@ -184,7 +182,7 @@ def get_images_and_labels(images, labels, path):
                 # dodanie etykiety
                 labels.append(nbr)
         else:
-            print "Nie dodano: " + image_path + " z powodu błednej nazwy"
+            print "Nie dodano: " + image_path + " z powodu blednej nazwy"
     return images, labels
 
 def is_number(s):
@@ -201,12 +199,12 @@ if __name__ == '__main__':
         labels = []
         is_all_persons = False
         while not(is_all_persons):
-            choise = raw_input("Wybierz sposób dodawania: \n\t camera - danie zdjęć bezpośrednio z kamery, \n\t <pełna ścieżka folderu> - pełna ścieżka do folderu z nowymi zdjeciami \n\t q - wyjście z prgramu wybór:")
+            choise = raw_input("Wybierz sposob dodawania: \n\t camera - dodanie zdjec bezposrednio z kamery, \n\t <pelna sciezka folderu> - pelna sciezka do folderu z nowymi zdjeciami \n\t q - wyjscie z programu \n wybor: ")
             if choise == "q":
                 sys.exit(0)
             images, labels = add_image(images, labels, choise)
             while True:
-                choise = raw_input("Chcesz dodać kolejną osobę?: T/N \n wybór:")
+                choise = raw_input("Chcesz dodac kolejna osobe?: T/N \n wybor: ")
                 if choise == "t" or choise == "T":
                     is_all_persons = False
                     break
@@ -215,12 +213,13 @@ if __name__ == '__main__':
                         is_all_persons = True
                         break
                     else:
-                        print "Błędna odpowiedź"
+                        print "Bledna odpowiedz"
             images, labels = get_images_and_labels(images, labels, "./" + path_photos)
         if len(images) == len(labels) and len(images) > 1:
             # wykonanie treningu i zapisanie
             recognizer.train(images, np.array(labels))
             recognizer.save("wytrenowany_plik.mdl")
-            print "koniec treningu"
+            sys.stdout.flush()
+            print "Koniec treningu"
         else:
-            print "Błąd treningu"
+            print "Blad treningu"
