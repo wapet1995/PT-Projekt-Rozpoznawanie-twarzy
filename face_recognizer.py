@@ -12,44 +12,47 @@ import sys
 # sciezka do pliku wynikowego z treneningu  (xml)
 face_cascade = cv2.CascadeClassifier("haarcascade_frontalface_alt.xml")
 
+# wybor algorytmu rozpoznajacego twarz
 recognizer = cv2.createFisherFaceRecognizer()
 # recognizer = cv2.createEigenFaceRecognizer()
 # recognizer = cv2.createLBPHFaceRecognizer()
 
+# zmienna przechowujaca adres IP bazy danych
 ip_server = None
 
+# parametry ramki i wielkosci twarzy
 witdh_face = 250
 hight_face = 250
 w_frame = 640
 h_frame = 480
-photos = 10
-path_photos = 'baza_zdjec'
+photos = 10 # liczba zdjec przy dodawaniu kamera
 
+path_photos = 'baza_zdjec' # nazwa folderu przechowujacego baze zdjec
 
-def add_image(choise = "camera"):
-    images = []
-    labels = []
-    name = raw_input("Podaj imię: ")
-    surname = raw_input("Podaj nazwisko: ")
-    try:
-        # polaczenie z BD
-        conn = MySQLdb.connect(host=ip_server, port=3306, user="maciej", passwd="WApet1995",
-                               db="Rozpoznawanie_twarzy_db")
-        c = conn.cursor()
-        c.execute("SELECT LABEL FROM Osoby WHERE NAME = %s and SURNAME = %s", (name, surname))
-        label = c.fetchall()
-        if len(label) > 0:
-            c.execute("INSERT INTO Osoby(NAME, SURNAME) VALUES (%s,%s)", (name, surname))
+# funkcja odpowiedzialna za dodawanie zdjec danej osoby do treningu
+def add_image(images, labels, choise = "camera"):
+    if choise == "camera":
+        name = raw_input("Podaj imię: ")
+        surname = raw_input("Podaj nazwisko: ")
+
+        # polaczenie z baza danych
+        try:
+            conn = MySQLdb.connect(host=ip_server, port=3306, user="maciej", passwd="WApet1995", db="Rozpoznawanie_twarzy_db")
+            c = conn.cursor()
             c.execute("SELECT LABEL FROM Osoby WHERE NAME = %s and SURNAME = %s", (name, surname))
             label = c.fetchall()
-    except:
-        raw_input("Problem z połączeniem z bazą danych. Proszę naprawić połączenie i spróbować ponownie")
-        sys.exit(0)
+            if len(label) > 0:
+                print "Dodaję użytkownika do bazy danych: " + name + " " + surname
+                c.execute("INSERT INTO Osoby(NAME, SURNAME) VALUES (%s,%s)", (name, surname))
+                c.execute("SELECT LABEL FROM Osoby WHERE NAME = %s and SURNAME = %s", (name, surname))
+                label = c.fetchall()
+        except:
+            raw_input("Problem z połączeniem z bazą danych. Proszę naprawić połączenie i spróbować ponownie")
+            sys.exit(0)
 
-    if choise == "camera":
-        camera = cv2.VideoCapture(0)
+        camera = cv2.VideoCapture(0)    # ustawienie domyslnej kamery
         time.sleep(0.25)
-        frame = camera.read()[1]
+        frame = camera.read()[1]        # pobranie klatki z kamery
         cv_size = lambda img: tuple(frame.shape[1::-1])
         x_frame = int(cv_size(frame)[0] / 2) - int(w_frame / 2)
         y_frame = int(cv_size(frame)[1] / 2) - int(h_frame / 2)
@@ -103,7 +106,7 @@ def add_image(choise = "camera"):
             if photo_counter >= 10:
                 cv2.destroyAllWindows()
                 camera.release()
-                key = raw_input("Czy chcesz ponownie dodać zdjęcia?: T/N")
+                key = raw_input("Czy chcesz ponownie dodać swoje zdjęcia?: T/N")
                 while True:
                     if key == "t" or key == "T":
                         camera = cv2.VideoCapture(0)
@@ -123,8 +126,24 @@ def add_image(choise = "camera"):
 
 
 def get_new_images_and_labels(images, labels, path):
-    # format pliku (nazwa twarzy [subjectNUMER] po kropce wyraz twarzy
-    # nie wrzucamy do treningu pkikow z rozszrezeniem test - sa do testow
+    name = raw_input("Podaj imię: ")
+    surname = raw_input("Podaj nazwisko: ")
+    try:
+        # polaczenie z BD
+        conn = MySQLdb.connect(host=ip_server, port=3306, user="maciej", passwd="WApet1995",
+                               db="Rozpoznawanie_twarzy_db")
+        c = conn.cursor()
+        c.execute("SELECT LABEL FROM Osoby WHERE NAME = %s and SURNAME = %s", (name, surname))
+        label = c.fetchall()
+        if len(label) > 0:
+            print "Dodaję użytkownika do bazy danych: " + name + " " + surname
+            c.execute("INSERT INTO Osoby(NAME, SURNAME) VALUES (%s,%s)", (name, surname))
+            c.execute("SELECT LABEL FROM Osoby WHERE NAME = %s and SURNAME = %s", (name, surname))
+            label = c.fetchall()
+    except:
+        raw_input("Problem z połączeniem z bazą danych. Proszę naprawić połączenie i spróbować ponownie")
+        sys.exit(0)
+
     image_paths = [os.path.join(path, f) for f in os.listdir(path) if (f.endswith('.JPG') or f.endswith('.jpg') or f.endswith('.Jpg') or f.endswith('.PNG') or f.endswith('.png') or f.endswith('.Png'))]
     index = 0
     for image_path in image_paths:
@@ -147,8 +166,6 @@ def get_new_images_and_labels(images, labels, path):
     return images, labels
 
 def get_images_and_labels(images, labels, path):
-    # format pliku (nazwa twarzy [subjectNUMER] po kropce wyraz twarzy
-    # nie wrzucamy do treningu pkikow z rozszrezeniem test - sa do testow
     image_paths = [os.path.join(path, f) for f in os.listdir(path) if (f.endswith('.JPG') or f.endswith('.jpg') or f.endswith('.Jpg') or f.endswith('.PNG') or f.endswith('.png') or f.endswith('.Png'))]
 
     for image_path in image_paths:
@@ -182,14 +199,30 @@ def is_number(s):
 if __name__ == '__main__':
     ip_server = raw_input("Podaj ip serwera: ")
     while True:
-        # choise = raw_input("jesli chcesz dodac zdjecie do danej osoby wpisz 1 jesli nowa osobe chcesz dodac wpisz 2: ")
-        choise = raw_input("Wybierz sposób dodawania: \n\t camera - danie zdjęć bezpośrednio z kamery, \n\t <pełna ścieżka folderu> - pełna ścieżka do folderu z nowymi zdjeciami \n\t q - wyjście z prgramu wybór:")
-        if choise == "q":
-            sys.exit(0)
-        images, labels = add_image(choise)
+        images = []
+        labels = []
+        is_all_persons = False
+        while not(is_all_persons):
+            choise = raw_input("Wybierz sposób dodawania: \n\t camera - danie zdjęć bezpośrednio z kamery, \n\t <pełna ścieżka folderu> - pełna ścieżka do folderu z nowymi zdjeciami \n\t q - wyjście z prgramu wybór:")
+            if choise == "q":
+                sys.exit(0)
+            images, labels = add_image(images, labels, choise)
+            while True:
+                choise = raw_input("Chcesz dodać kolejną osobę?: T/N \n wybór:")
+                if choise == "t" or choise == "T":
+                    is_all_persons = False
+                    break
+                else:
+                    if choise == "n" or choise == "N":
+                        is_all_persons = True
+                        break
+                    else:
+                        print "Błędna odpowiedź"
+
         if len(images) == len(labels) and len(images) > 1:
             # wykonanie treningu i zapisanie
             recognizer.train(images, np.array(labels))
             recognizer.save("wytrenowany_plik.mdl")
             print "koniec treningu"
-
+        else:
+            print "Błąd treningu"
