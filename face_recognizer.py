@@ -7,6 +7,7 @@ from PIL import Image
 import MySQLdb
 import time
 from datetime import datetime
+import sys
 
 # sciezka do pliku wynikowego z treneningu  (xml)
 face_cascade = cv2.CascadeClassifier("haarcascade_frontalface_alt.xml")
@@ -26,24 +27,26 @@ path_photos = 'baza_zdjec'
 
 
 def add_image(choise = "camera"):
-    label = 2
     images = []
     labels = []
     if choise == "camera":
         name = raw_input("Podaj imię: ")
         surname = raw_input("Podaj nazwisko: ")
 
-
         # polaczenie z BD
-        '''conn = MySQLdb.connect(host="", user="root", passwd="inteligentnyzamek", db="Rozpoznawanie_twarzy_db")
+    #try:
+        # polaczenie z BD
+        conn = MySQLdb.connect(host=ip_server, port=3306, user="maciej", passwd="WApet1995", db="Rozpoznawanie_twarzy_db")
         c = conn.cursor()
-        c.execute("SELECT Label FROM 'Osoby' WHERE NAME = '%s' and SURNAME = '%s'", (name, surname))
+        c.execute("SELECT LABEL FROM Osoby WHERE NAME = %s and SURNAME = %s", (name, surname))
         label = c.fetchall()
-    
         if len(label) > 0:
-            c.execute("INSERT INTO `Osoby`(`NAME`, `SURNAME`) VALUES ('%s','%s')", (name, surname))
-            c.execute("SELECT Label FROM 'Osoby' WHERE NAME = '%s' and SURNAME = '%s'", (name, surname))
-            label = c.fetchall()'''
+            c.execute("INSERT INTO Osoby(NAME, SURNAME) VALUES (%s,%s)", (name, surname))
+            c.execute("SELECT LABEL FROM Osoby WHERE NAME = %s and SURNAME = %s", (name, surname))
+            label = c.fetchall()
+        #except:
+        #    raw_input("Problem z połączeniem z bazą danych. Proszę naprawić połączenie i spróbować ponownie")
+        #    sys.exit(0)
         camera = cv2.VideoCapture(0)
         time.sleep(0.25)
         frame = camera.read()[1]
@@ -120,6 +123,22 @@ def add_image(choise = "camera"):
 
 
 def get_new_images_and_labels(images, labels, path):
+    name = raw_input("Podaj imię: ")
+    surname = raw_input("Podaj nazwisko: ")
+    try:
+        # polaczenie z BD
+        conn = MySQLdb.connect(host=ip_server, port=3306, user="maciej", passwd="WApet1995",
+                               db="Rozpoznawanie_twarzy_db")
+        c = conn.cursor()
+        c.execute("SELECT LABEL FROM Osoby WHERE NAME = %s and SURNAME = %s", (name, surname))
+        label = c.fetchall()
+        if len(label) > 0:
+            c.execute("INSERT INTO Osoby(NAME, SURNAME) VALUES (%s,%s)", (name, surname))
+            c.execute("SELECT LABEL FROM Osoby WHERE NAME = %s and SURNAME = %s", (name, surname))
+            label = c.fetchall()
+    except:
+        raw_input("Problem z połączeniem z bazą danych. Proszę naprawić połączenie i spróbować ponownie")
+        sys.exit(0)
     # format pliku (nazwa twarzy [subjectNUMER] po kropce wyraz twarzy
     # nie wrzucamy do treningu pkikow z rozszrezeniem test - sa do testow
     image_paths = [os.path.join(path, f) for f in os.listdir(path) if (f.endswith('.JPG') or f.endswith('.jpg') or f.endswith('.Jpg') or f.endswith('.PNG') or f.endswith('.png') or f.endswith('.Png'))]
@@ -132,21 +151,15 @@ def get_new_images_and_labels(images, labels, path):
         image = np.array(image_pil, 'uint8')
         # uzyskanie numeru twarzy z nazwy pliku
         print image_path
-        base = os.path.basename(image_path)
-        nbr = base.split("_")[0]
-        if is_number(nbr):
-            nbr = int(nbr)
-            cv2.imwrite(
-                "./" + path_photos + "/" + str(nbr) + "_" + datetime.now().strftime('%Y-%m-%d %H_%M_%S_') + str(
-                    index) + ".JPG", image)
-            index += 1
-            faces = face_cascade.detectMultiScale(image, 1.3, 8)
-            for (x, y, w, h) in faces:
-                images.append(image[y: y + hight_face, x: x + witdh_face])
-                # dodanie etykiety
-                labels.append(nbr)
-        else:
-            print "Nie dodano: " + image_path + " z powodu błednej nazwy"
+        cv2.imwrite(
+            "./" + path_photos + "/" + str(label) + "_" + datetime.now().strftime('%Y-%m-%d %H_%M_%S_') + str(
+                index) + ".JPG", image)
+        index += 1
+        faces = face_cascade.detectMultiScale(image, 1.3, 8)
+        for (x, y, w, h) in faces:
+            images.append(image[y: y + hight_face, x: x + witdh_face])
+            # dodanie etykiety
+            labels.append(label)
     return images, labels
 
 def get_images_and_labels(images, labels, path):
@@ -186,9 +199,13 @@ if __name__ == '__main__':
     ip_server = raw_input("Podaj ip serwera: ")
     while True:
         # choise = raw_input("jesli chcesz dodac zdjecie do danej osoby wpisz 1 jesli nowa osobe chcesz dodac wpisz 2: ")
-        choise = raw_input("Wybierz sposób dodawania: \n\t camera - danie zdjęć bezpośrednio z kamery, \n\t <pełna ścieżka folderu> - pełna ścieżka do folderu z nowymi zdjeciami \n wybór:")
+        choise = raw_input("Wybierz sposób dodawania: \n\t camera - danie zdjęć bezpośrednio z kamery, \n\t <pełna ścieżka folderu> - pełna ścieżka do folderu z nowymi zdjeciami \n\t q - wyjście z prgramu wybór:")
+        if choise == "q":
+            sys.exit(0)
         images, labels = add_image(choise)
-        # wykonanie treningu i zapisanie
-        recognizer.train(images, np.array(labels))
-        recognizer.save("wytrenowany_plik.mdl")
-        print "koniec treningu"
+        if len(images) == len(labels) and len(images) > 1:
+            # wykonanie treningu i zapisanie
+            recognizer.train(images, np.array(labels))
+            recognizer.save("wytrenowany_plik.mdl")
+            print "koniec treningu"
+
