@@ -40,15 +40,15 @@ def add_image(images, labels, choise = "camera"):
             conn = MySQLdb.connect(host=ip_server, port=3306, user="maciej", passwd="WApet1995", db="Rozpoznawanie_twarzy_db")
             c = conn.cursor()
             c.execute("SELECT LABEL FROM Osoby WHERE NAME = %s and SURNAME = %s", (name, surname))
-            label = c.fetchall()
-            if len(label) > 0:
+            if c.rowcount == 0:
                 print "Dodaję użytkownika do bazy danych: " + name + " " + surname
                 c.execute("INSERT INTO Osoby(NAME, SURNAME) VALUES (%s,%s)", (name, surname))
                 c.execute("SELECT LABEL FROM Osoby WHERE NAME = %s and SURNAME = %s", (name, surname))
-                label = c.fetchall()
         except:
             raw_input("Problem z połączeniem z bazą danych. Proszę naprawić połączenie i spróbować ponownie")
             sys.exit(0)
+        label = c.fetchone()[0]
+        conn.close()
 
         camera = cv2.VideoCapture(0)    # ustawienie domyslnej kamery
         time.sleep(0.25)
@@ -120,7 +120,6 @@ def add_image(images, labels, choise = "camera"):
                 photo_take = False
     else:
         images, labels = get_new_images_and_labels(images, labels, choise)
-    images, labels = get_images_and_labels(images, labels, "./" + path_photos)
     return images, labels
     # dodalismy zdjecia mozna przejsc do innej funkcji z treningiem
 
@@ -128,21 +127,21 @@ def add_image(images, labels, choise = "camera"):
 def get_new_images_and_labels(images, labels, path):
     name = raw_input("Podaj imię: ")
     surname = raw_input("Podaj nazwisko: ")
+    # polaczenie z baza danych
     try:
-        # polaczenie z BD
         conn = MySQLdb.connect(host=ip_server, port=3306, user="maciej", passwd="WApet1995",
                                db="Rozpoznawanie_twarzy_db")
         c = conn.cursor()
         c.execute("SELECT LABEL FROM Osoby WHERE NAME = %s and SURNAME = %s", (name, surname))
-        label = c.fetchall()
-        if len(label) > 0:
+        if c.rowcount == 0:
             print "Dodaję użytkownika do bazy danych: " + name + " " + surname
             c.execute("INSERT INTO Osoby(NAME, SURNAME) VALUES (%s,%s)", (name, surname))
             c.execute("SELECT LABEL FROM Osoby WHERE NAME = %s and SURNAME = %s", (name, surname))
-            label = c.fetchall()
     except:
         raw_input("Problem z połączeniem z bazą danych. Proszę naprawić połączenie i spróbować ponownie")
         sys.exit(0)
+    label = c.fetchone()[0]
+    conn.close()
 
     image_paths = [os.path.join(path, f) for f in os.listdir(path) if (f.endswith('.JPG') or f.endswith('.jpg') or f.endswith('.Jpg') or f.endswith('.PNG') or f.endswith('.png') or f.endswith('.Png'))]
     index = 0
@@ -175,7 +174,6 @@ def get_images_and_labels(images, labels, path):
         # konwersja na numpy array
         image = np.array(image_pil, 'uint8')
         # uzyskanie numeru twarzy z nazwy pliku
-        print image_path
         base = os.path.basename(image_path)
         nbr = base.split("_")[0]
         if is_number(nbr):
@@ -218,7 +216,7 @@ if __name__ == '__main__':
                         break
                     else:
                         print "Błędna odpowiedź"
-
+            images, labels = get_images_and_labels(images, labels, "./" + path_photos)
         if len(images) == len(labels) and len(images) > 1:
             # wykonanie treningu i zapisanie
             recognizer.train(images, np.array(labels))
