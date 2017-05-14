@@ -29,14 +29,12 @@ path_photos = 'baza_zdjec'
 def add_image(choise = "camera"):
     images = []
     labels = []
-    if choise == "camera":
-        name = raw_input("Podaj imię: ")
-        surname = raw_input("Podaj nazwisko: ")
-
+    name = raw_input("Podaj imię: ")
+    surname = raw_input("Podaj nazwisko: ")
+    try:
         # polaczenie z BD
-    #try:
-        # polaczenie z BD
-        conn = MySQLdb.connect(host=ip_server, port=3306, user="maciej", passwd="WApet1995", db="Rozpoznawanie_twarzy_db")
+        conn = MySQLdb.connect(host=ip_server, port=3306, user="maciej", passwd="WApet1995",
+                               db="Rozpoznawanie_twarzy_db")
         c = conn.cursor()
         c.execute("SELECT LABEL FROM Osoby WHERE NAME = %s and SURNAME = %s", (name, surname))
         label = c.fetchall()
@@ -44,9 +42,11 @@ def add_image(choise = "camera"):
             c.execute("INSERT INTO Osoby(NAME, SURNAME) VALUES (%s,%s)", (name, surname))
             c.execute("SELECT LABEL FROM Osoby WHERE NAME = %s and SURNAME = %s", (name, surname))
             label = c.fetchall()
-        #except:
-        #    raw_input("Problem z połączeniem z bazą danych. Proszę naprawić połączenie i spróbować ponownie")
-        #    sys.exit(0)
+    except:
+        raw_input("Problem z połączeniem z bazą danych. Proszę naprawić połączenie i spróbować ponownie")
+        sys.exit(0)
+
+    if choise == "camera":
         camera = cv2.VideoCapture(0)
         time.sleep(0.25)
         frame = camera.read()[1]
@@ -123,22 +123,6 @@ def add_image(choise = "camera"):
 
 
 def get_new_images_and_labels(images, labels, path):
-    name = raw_input("Podaj imię: ")
-    surname = raw_input("Podaj nazwisko: ")
-    try:
-        # polaczenie z BD
-        conn = MySQLdb.connect(host=ip_server, port=3306, user="maciej", passwd="WApet1995",
-                               db="Rozpoznawanie_twarzy_db")
-        c = conn.cursor()
-        c.execute("SELECT LABEL FROM Osoby WHERE NAME = %s and SURNAME = %s", (name, surname))
-        label = c.fetchall()
-        if len(label) > 0:
-            c.execute("INSERT INTO Osoby(NAME, SURNAME) VALUES (%s,%s)", (name, surname))
-            c.execute("SELECT LABEL FROM Osoby WHERE NAME = %s and SURNAME = %s", (name, surname))
-            label = c.fetchall()
-    except:
-        raw_input("Problem z połączeniem z bazą danych. Proszę naprawić połączenie i spróbować ponownie")
-        sys.exit(0)
     # format pliku (nazwa twarzy [subjectNUMER] po kropce wyraz twarzy
     # nie wrzucamy do treningu pkikow z rozszrezeniem test - sa do testow
     image_paths = [os.path.join(path, f) for f in os.listdir(path) if (f.endswith('.JPG') or f.endswith('.jpg') or f.endswith('.Jpg') or f.endswith('.PNG') or f.endswith('.png') or f.endswith('.Png'))]
