@@ -72,7 +72,7 @@ def detect_faces():
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         gray = cv2.equalizeHist(gray)
         # wykryj twarze
-        faces = face_cascade.detectMultiScale(gray, 1.3, 4)
+        faces = face_cascade.detectMultiScale(gray, 1.3, 6)
 
 
 '''  MAIN
