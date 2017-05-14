@@ -25,19 +25,25 @@ witdh_face = 250
 hight_face = 250
 w_frame = 640
 h_frame = 480
-photos = 10 # liczba zdjec przy dodawaniu kamera
+photos = 10  # liczba zdjec przy dodawaniu kamera
 
-path_photos = 'baza_zdjec' # nazwa folderu przechowujacego baze zdjec
+path_photos = 'baza_zdjec'  # nazwa folderu przechowujacego baze zdjec
+
 
 # funkcja odpowiedzialna za dodawanie zdjec danej osoby do treningu
-def add_image(images, labels, choise = "camera"):
+def add_image(images, labels, choise="camera"):
     if choise == "camera":
         name = raw_input("Podaj imie: ")
+        if name == "":
+            name = raw_input("Podaj imie: ")
         surname = raw_input("Podaj nazwisko: ")
+        if surname == "":
+            surname = raw_input("Podaj nazwisko: ")
 
         # polaczenie z baza danych
         try:
-            conn = MySQLdb.connect(host=ip_server, port=3306, user="maciej", passwd="WApet1995", db="Rozpoznawanie_twarzy_db")
+            conn = MySQLdb.connect(host=ip_server, port=3306, user="maciej", passwd="WApet1995",
+                                   db="Rozpoznawanie_twarzy_db")
             c = conn.cursor()
             c.execute("SELECT LABEL FROM Osoby WHERE NAME = %s and SURNAME = %s", (name, surname))
             if c.rowcount == 0:
@@ -50,9 +56,9 @@ def add_image(images, labels, choise = "camera"):
         label = c.fetchone()[0]
         conn.close()
 
-        camera = cv2.VideoCapture(0)    # ustawienie domyslnej kamery
+        camera = cv2.VideoCapture(0)  # ustawienie domyslnej kamery
         time.sleep(0.25)
-        frame = camera.read()[1]        # pobranie klatki z kamery
+        frame = camera.read()[1]  # pobranie klatki z kamery
         cv_size = lambda img: tuple(frame.shape[1::-1])
         x_frame = int(cv_size(frame)[0] / 2) - int(w_frame / 2)
         y_frame = int(cv_size(frame)[1] / 2) - int(h_frame / 2)
@@ -60,7 +66,7 @@ def add_image(images, labels, choise = "camera"):
         photo_counter = 0
         photo_take = False
         while photo_counter < photos:
-            while not (photo_take):
+            while not photo_take:
                 frame = camera.read()[1]
                 gray = frame[y_frame: y_frame + h_frame, x_frame: x_frame + w_frame].copy()
                 gray = cv2.cvtColor(gray, cv2.COLOR_BGR2GRAY)
@@ -74,7 +80,7 @@ def add_image(images, labels, choise = "camera"):
                     for (x, y, w, h) in faces:
                         cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
                         if (w <= witdh_face + 50) and (w >= witdh_face - 50) and (h <= hight_face + 50) and (
-                            h >= hight_face - 50):
+                                    h >= hight_face - 50):
                             cv2.putText(frame, "Wcisnik spacje, aby wykonac zdjecie", (x + 5, y + 10),
                                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
                             key = cv2.waitKey(100)
@@ -82,7 +88,8 @@ def add_image(images, labels, choise = "camera"):
                                 images.append(gray[y: y + hight_face, x: x + witdh_face])
                                 labels.append(label)
                                 photo_counter += 1
-                                cv2.imwrite("./" + path_photos + "/" + str(label) + "_" + datetime.now().strftime('%Y-%m-%d %H_%M_%S_') + str(photo_counter) + ".JPG", gray)
+                                cv2.imwrite("./" + path_photos + "/" + str(label) + "_" + datetime.now().strftime(
+                                    '%Y-%m-%d %H_%M_%S_') + str(photo_counter) + ".JPG", gray)
                                 photo_take = True
                                 time.sleep(0.1)
                         else:
@@ -122,9 +129,14 @@ def add_image(images, labels, choise = "camera"):
         images, labels = get_new_images_and_labels(images, labels, choise)
     return images, labels
 
+
 def get_new_images_and_labels(images, labels, path):
     name = raw_input("Podaj imie: ")
+    if name == "":
+        name = raw_input("Podaj imie: ")
     surname = raw_input("Podaj nazwisko: ")
+    if surname == "":
+        surname = raw_input("Podaj nazwisko: ")
     # polaczenie z baza danych
     try:
         conn = MySQLdb.connect(host=ip_server, port=3306, user="maciej", passwd="WApet1995",
@@ -141,7 +153,9 @@ def get_new_images_and_labels(images, labels, path):
     label = c.fetchone()[0]
     conn.close()
 
-    image_paths = [os.path.join(path, f) for f in os.listdir(path) if (f.endswith('.JPG') or f.endswith('.jpg') or f.endswith('.Jpg') or f.endswith('.PNG') or f.endswith('.png') or f.endswith('.Png'))]
+    image_paths = [os.path.join(path, f) for f in os.listdir(path) if (
+        f.endswith('.JPG') or f.endswith('.jpg') or f.endswith('.Jpg') or f.endswith('.PNG') or f.endswith(
+            '.png') or f.endswith('.Png'))]
     index = 0
     for image_path in image_paths:
         # wczytanie obrazu i przerobienie na skale szarosci
@@ -162,8 +176,11 @@ def get_new_images_and_labels(images, labels, path):
             labels.append(label)
     return images, labels
 
+
 def get_images_and_labels(images, labels, path):
-    image_paths = [os.path.join(path, f) for f in os.listdir(path) if (f.endswith('.JPG') or f.endswith('.jpg') or f.endswith('.Jpg') or f.endswith('.PNG') or f.endswith('.png') or f.endswith('.Png'))]
+    image_paths = [os.path.join(path, f) for f in os.listdir(path) if (
+        f.endswith('.JPG') or f.endswith('.jpg') or f.endswith('.Jpg') or f.endswith('.PNG') or f.endswith(
+            '.png') or f.endswith('.Png'))]
 
     for image_path in image_paths:
         # wczytanie obrazu i przerobienie na skale szarosci
@@ -185,6 +202,7 @@ def get_images_and_labels(images, labels, path):
             print "Nie dodano: " + image_path + " z powodu blednej nazwy"
     return images, labels
 
+
 def is_number(s):
     try:
         int(s)
@@ -192,14 +210,17 @@ def is_number(s):
     except ValueError:
         return False
 
+
 if __name__ == '__main__':
     ip_server = raw_input("Podaj ip serwera: ")
     while True:
         images = []
         labels = []
         is_all_persons = False
-        while not(is_all_persons):
-            choise = raw_input("Wybierz sposob dodawania: \n\t camera - dodanie zdjec bezposrednio z kamery, \n\t <pelna sciezka folderu> - pelna sciezka do folderu z nowymi zdjeciami \n\t q - wyjscie z programu \n wybor: ")
+        while not is_all_persons:
+            choise = raw_input("Wybierz sposob dodawania: \n\t camera - dodanie zdjec bezposrednio z kamery, "
+                               "\n\t <pelna sciezka folderu> - pelna sciezka do folderu z nowymi zdjeciami \n\t q - "
+                               "wyjscie z programu \n wybor: ")
             if choise == "q":
                 sys.exit(0)
             images, labels = add_image(images, labels, choise)
