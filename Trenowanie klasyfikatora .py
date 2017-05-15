@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # !/usr/bin/python
 import cv2
 import numpy as np
@@ -8,13 +7,13 @@ import MySQLdb
 import time
 from datetime import datetime
 import sys
+from progress.bar import Bar
 
 # sciezka do pliku wynikowego z treneningu  (xml)
 face_cascade = cv2.CascadeClassifier("haarcascade_frontalface_alt.xml")
 
 # wybor algorytmu rozpoznajacego twarz
 recognizer = cv2.createFisherFaceRecognizer()
-# recognizer = cv2.createLBPHFaceRecognizer()
 
 # zmienna przechowujaca adres IP bazy danych
 ip_server = None
@@ -25,8 +24,8 @@ hight_face = 250
 w_frame = 640
 h_frame = 480
 photos = 10  # liczba zdjec przy dodawaniu kamera
-
 path_photos = 'baza_zdjec'  # nazwa folderu przechowujacego baze zdjec
+
 
 def take_label_from_database():
     name = raw_input("Podaj imie: ")
@@ -35,7 +34,6 @@ def take_label_from_database():
     surname = raw_input("Podaj nazwisko: ")
     if surname == "":
         surname = raw_input("Podaj nazwisko: ")
-
     # polaczenie z baza danych
     try:
         conn = MySQLdb.connect(host=ip_server, port=3306, user="maciej", passwd="WApet1995",
@@ -53,10 +51,12 @@ def take_label_from_database():
         raw_input("Problem z polaczeniem z bazz danych. Prosze naprawic polaczenie i sprobowac ponownie")
         sys.exit(0)
 
+
 def save_named_file(label, index, image):
     cv2.imwrite(
         "./" + path_photos + "/" + str(label) + "_" + datetime.now().strftime('%Y-%m-%d %H_%M_%S_') + str(
             index) + ".JPG", image)
+
 
 # funkcja odpowiedzialna za dodawanie zdjec danej osoby do treningu
 def add_image(images, labels, choise="camera"):
@@ -69,7 +69,6 @@ def add_image(images, labels, choise="camera"):
         cv_size = lambda img: tuple(frame.shape[1::-1])
         x_frame = int(cv_size(frame)[0] / 2) - int(w_frame / 2)
         y_frame = int(cv_size(frame)[1] / 2) - int(h_frame / 2)
-
         photo_counter = 0
         photo_take = False
         while photo_counter < photos:
@@ -115,7 +114,6 @@ def add_image(images, labels, choise="camera"):
                 if key == 27:
                     photo_counter = 10
                     break
-
             if photo_counter >= 10:
                 cv2.destroyAllWindows()
                 camera.release()
@@ -141,19 +139,20 @@ def load_files_from_dir(path):
         f.endswith('.JPG') or f.endswith('.jpg') or f.endswith('.Jpg') or f.endswith('.PNG') or f.endswith(
             '.png') or f.endswith('.Png'))]
 
+
 def get_new_images_and_labels(images, labels, path):
     # pobranie etykiety z bazy danych
     label = take_label_from_database()
     # pobranie zdjec z folderu wskazanaego w zmiennej path
     image_paths = load_files_from_dir(path)
     index = 0
+    bar = Bar('\nWgrywanie folderu ' + path + ' : ', max=len(image_paths))
     for image_path in image_paths:
         # wczytanie obrazu i przerobienie na skale szarosci
         image_pil = Image.open(image_path).convert('L')
         # konwersja na numpy array
         image = np.array(image_pil, 'uint8')
         # uzyskanie numeru twarzy z nazwy pliku
-        print image_path
         save_named_file(label, index, image)
         index += 1
         faces = face_cascade.detectMultiScale(image, 1.3, 8)
@@ -161,12 +160,15 @@ def get_new_images_and_labels(images, labels, path):
             images.append(image[y: y + hight_face, x: x + witdh_face])
             # dodanie etykiety
             labels.append(label)
+        bar.next()
+    bar.finish()
     return images, labels
 
 
 def get_images_and_labels(images, labels, path):
     # pobranie zdjec z folderu wskazanaego w zmiennej path
     image_paths = load_files_from_dir(path)
+    bar = Bar(' Wgrywanie bazy danych: ', max=len(image_paths))
     for image_path in image_paths:
         # wczytanie obrazu i przerobienie na skale szarosci
         image_pil = Image.open(image_path).convert('L')
@@ -184,6 +186,8 @@ def get_images_and_labels(images, labels, path):
                 labels.append(nbr)
         else:
             print "Nie dodano: " + image_path + " z powodu blednej nazwy"
+        bar.next()
+    bar.finish()
     return images, labels
 
 
@@ -219,11 +223,12 @@ if __name__ == '__main__':
                     else:
                         print "Bledna odpowiedz"
             images, labels = get_images_and_labels(images, labels, "./" + path_photos)
+            print "\nTrwa trenowanie"
         if len(images) == len(labels) and len(images) > 1:
             # wykonanie treningu i zapisanie
             recognizer.train(images, np.array(labels))
+            print "Trwa zapisywanie klasyfikatora do pliku"
             recognizer.save("wytrenowany_plik.mdl")
-            sys.stdout.flush()
             print "Koniec treningu"
         else:
             print "Blad treningu"
