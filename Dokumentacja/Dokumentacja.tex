@@ -1,16 +1,17 @@
-\documentclass[12pt,a4paper]{article}
+\documentclass[12pt,a4paper, twoside]{article}
 \usepackage{polski}
 \usepackage[cp1250]{inputenc}
 \usepackage{mdwlist}
 \usepackage{enumitem}
 \usepackage{graphicx}
 \usepackage{geometry}
+\usepackage{longtable}
  \geometry{
 	a4paper,
-	total={170mm,257mm},
+	total={170mm,230mm},
 	left=30mm,
 	right=30mm,
-	top=20mm,
+	top=30mm,
 }
 \usepackage{indentfirst}
 \usepackage{hyperref} 
@@ -55,15 +56,23 @@
 	\section{Dlaczego rozpoznawanie twarzy}
 	Projekt realizowany jest w ramach przedmiotu Podstawy Teleinformatyki. Wybrano temat ,,Rozpoznawanie~twarzy~i~œledzenie~ruchu'' z wielu ró¿nych mo¿liwoœci, poniewa¿ jest to mo¿liwoœæ poznania problematyki, która przyda siê nam w przygotowaniu siê do tworzenia pracy in¿ynierskiej. Identyfikacja osób jest form¹ zabezpieczeñ biometryczny, która jest œciœle zwi¹zana z dziedzin¹ bezpieczeñstwa systemów informatyczny, jednoczeœnie z wybran¹ przez nas specjalizacj¹ kierunku studiów.
 	
+	\newpage
 	\section{Wymagania}
 	\subsection{Wymagania funkcjonalne}
-	Podstawowymi wymaganiami jakie ma spe³niaæ projekt s¹:
-	\begin{itemize*}
-		\item œledzenie ruchu na podstawie wykrywania konturu twarzy,
-		\item zliczanie liczby osób znajduj¹cej siê w obiektywie,
-		\item rozpoznawanie twarzy oraz przypisanie danej osoby do pasuj¹cy zdjêæ \linebreak znajduj¹cych siê w bazie danych,
-		\item automatyczne uczenie siê rozpoznawania nowych osób.
-	\end{itemize*}
+	Wymagania funkcjonalne systemu zebrane zosta³y w Tabeli \ref{tab:wymagania_funkcjonalne}. 
+	\begin{longtable}[!ht]{|p{4cm}|p{8cm}|} 
+		\caption{Tabela wymagañ funkcjonalnych systemu}
+		\label{tab:wymagania_funkcjonalne}\\
+		\hline	
+		Œledzenie ruchu & Dynamiczne zaznaczanie twarzy na klatce pobranej na ¿ywo z kamery \\ \hline
+		Zliczanie liczby osoby & Podanie liczby osób znajduj¹cych siê w danych chwili w obiektywie kamery\\ \hline
+		Rozpoznawanie twarzy & Na podstawie wykrytych twarzy rozpoznanie osoby wg etykiety przypisanej podczas nauki klasyfikatora\\ \hline
+		Przypisanie danych osobowych do zdjêcia & Przypisanie imienia i nazwiska osoby na podstawie wykrytej etykiety i pobrania odpowiedniej pozycji z bazy danych\\ \hline
+		Dodawanie obrazów do bazy zdjêæ z dysku & Mo¿liwoœæ do³¹czenia nowych zdjêæ do istniej¹cej bazy zdjêæ z folderu znajduj¹cego siê w pamiêci komputera \\ \hline
+		Dodawanie obrazów do bazy zdjêæ na ¿ywo z kamery & Mo¿liwoœæ do³¹czenia nowych zdjêæ do istniej¹cej bazy zdjêæ bezpoœrednio z kamery \\ \hline
+		Trenowanie klasyfikatora & Wykonanie pliku klasyfikatora na podstawie bazy zdjêæ \\ \hline
+	\end{longtable}
+	
 	\subsection{Wymagania pozafunkcjonalne}
 	Zak³ada siê nastêpuj¹ce wymagania pozafunkcjonalne systemu:
 	\begin{itemize*}
@@ -89,6 +98,7 @@
 		\item Latex.
 	\end{itemize*}
 
+	\newpage
 	\section{Organizacja pracy}
 	Link do repozytorium GitHub: \textcolor{blue}{\href{https://github.com/wapet1995/PT-Projekt-Rozpoznawanie-twarzy}{Rozpoznawanie twarzy i œledzenie ruchu}}
 	\subsection{Podzia³ pracy}
@@ -101,32 +111,44 @@
 	\end{itemize*}
 	Zadania Macieja Marciniaka:
 	\begin{itemize*}
-		\item zapoznanie siê z algorytmem FisherFace,
+		\item zapoznanie siê z algorytmem FisherFace oraz LBPH,
 		\item prowadzenie dokumentacji projektu,
 		\item implementacja wykrywania i zliczania twarzy na obrazie,
 		\item implementacja mechanizmu rozbudowy korpusu trenuj¹cego \linebreak klasyfikator.
 	\end{itemize*}
 	\subsection{Harmonogram pracy}
 	Przygotowano orientacyjny harmonogram pracy roz³o¿ony na wszystkie zajêcia projektowe. Wyszczególniono zadania jak równie¿ osobê/osoby \linebreak zajmuj¹ce siê danym fragmentem. Zobrazowano  harmonogram \linebreak na Rysunku~\ref{fig:harmonogram_prac}.
+	
 	\begin{figure}[h]
+		\hspace{-0.5cm}
 		\centering
-		\includegraphics[width=16cm]{harmonogram_prac.png}
+		\includegraphics[width=15cm]{harmonogram_prac.png}
 		\caption{Harmonogram prac}
 		\label{fig:harmonogram_prac}
 	\end{figure}
+\newpage
 	\section{Algorytmy rozpoznawania twarzy}
 	\subsection{EigenFace}
 	\input{EigenFace.tex}
 	\subsection{FisherFace}
 	\input{FisherFace.tex}
+	\subsection{LPBH}
+	\input{LPBH.tex}
+	\newpage
 	\subsection{Wybór algorytmu}
 	Podsumowuj¹c algorytm FisherFace obarczony jest mniejszym stopniem b³êdów ni¿ EigenFace. Na Rysunku \ref{fig:wykres_algorytmow} przedstawiono wykres efektywnoœci wybranych algorytmów, jak mo¿na zauwa¿yæ najbardziej zawodny jest EigenFace, zaœ bezkonkurencyjny FisherFace. Najlepsza implementacja przy pe³nym widoku twarzy ma poziom b³êdów rzêdu 1\% w porównaniu do blisko 25\% EigenFace.
 	\begin{figure}[!h]
 		\centering
-		\includegraphics[width=12cm]{wykres_algorytmow.png}
+		\includegraphics[width=15.5cm]{wykres_algorytmow.png}
 		\caption{Wykres efektywnoœci algorytmów rozpoznawania twarzy}
 		\label{fig:wykres_algorytmow}
 	\end{figure}
 	
-	Zak³adaj¹c znacznie mniejsze zu¿ycie pamiêci i oszczêdnoœæ obliczeñ algorytmu EigenFace w porównaniu do FisherFace jest to algorytm mniej obci¹¿aj¹cy mikrokomputer Raspberry. Zale¿y jednak nam podczas realizacji projektu, by poziom b³êdów by³ jak najni¿szy, wiêc do rozpoznawaniu twarzy u¿yjemy algorytmu FisherFace.
+	Algorytm EigenFace mimo stosunkowo niewielkich wymagañ obliczeniowych posiada bardzo s³abe wyniki przy rozpoznawaniu twarzy. Zale¿y nam jednak, aby system by³ w miarê mo¿liwoœci niezawodny st¹d metoda zostaje odrzucona z branych pod uwagê. Podczas testów w³asnych algorytm FisherFace okaza³ siê mniej skuteczny ni¿ metoda LPBH. Fisherface posiada jedn¹ g³ówn¹ wadê w porównaniu do LPBH, jest ni¹ brak mo¿liwoœci doszkalania klasyfikatora. Z punktu widzenia systemu posiadaj¹cego osoby czêsto przybywaj¹ce do bazy jest to bardzo niewydajne i problematyczne.
+	
+	Podsumowuj¹c, metoda Local Pattern Binary Histogram, w skrócie LPBH posiada najwiêcej zalet, pomimo du¿ych problemów z rozpoznawaniem twarzy znajduj¹cej siê bokiem.
+	
+	\newpage
+	\section{Biblioteka OpenCV}
+	Biblioteka OpenCV jest bardzo rozbudowana i posiadaj¹ca wiele zastosowañ, podczas realizacji projektu u¿yto zaledwie kilku metod do obróbki zdjêæ oraz samego rozpoznawania twarzy. Wykorzystano bibliotekê w wersji 2.4.9,  poniewa¿ dopiero od wersji 2.4 pojawi³y siê funkcje implementuj¹ce algorytmy FisherFace oraz LPBH. Nowsze wersje OpenCV s¹ problematyczne w instalacji w jêzyku Python 2.7 w systemie Linux. 
 \end{document}

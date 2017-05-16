@@ -1,0 +1,22 @@
+Local Pattern Binary Histogram (LPBH) jest metod¹ pozwalaj¹c¹ na zmianê zdjêcia w macierz wartoœci
+ca³kowitych opisuj¹cych ma³o-wymiarowe cechy obrazu. Histogram tych wartoœci jest nastêpnie
+wykorzystywany do dalszej analizy.
+
+LPBH nie bazuje na statystyce, wiêc nie jest potrzebna du¿a iloœæ zdjêæ ucz¹cych.
+Dodatkow¹ wa¿n¹ cech¹ tego algorytmu jest mo¿liwoœæ douczenia klasyfikatora ju¿ na istniej¹cym pliku. Poprzednie dwie techniki rozpoznawania twarzy wymaga³y ponownego treningu przy ka¿dorazowej chêci zwiêkszenia liczby zdjêæ danej osoby, czy dodanie nowej twarzy do systemu. 
+
+G³ówn¹ ide¹ algorytmu jest sumowanie lokalnej struktury zdjêcia poprzez porównywanie ka¿dego
+piksela z jego s¹siedztwem. Wybierany jest œrodkowy piksel kwadratowego obszaru (w wersji
+podstawowej 3x3 pikseli), a jego s¹siedztwo jest poddawane progowaniu. W zale¿noœci od tego, czy
+dany s¹siaduj¹cy piksel jest wiêkszy od progu, czy nie, przyjmuje wartoœæ 1 lub 0. Nastêpnie
+odczytuje siê liczbê binarn¹ zapisan¹ dooko³a œrodkowego piksela. Dla oœmiu pikseli s¹siaduj¹cych
+istnieje 256 kombinacji, zwanych Local Binary Patterns.
+
+Algorytm bardzo dobrze sprawdza siê przy zmiennym oœwietleniu, mo¿na zauwa¿yæ na Rysunku \ref{fig:LBPH} jak zmienia siê obraz wynikowy przy ró¿nym natê¿eniu œwiat³a.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=15cm]{LPBH_oswietlenie.png}
+	\caption{Dzia³anie algorytmu LPBH przy zmiennym oœwietleniu}
+	\label{fig:LBPH}
+\end{figure}
