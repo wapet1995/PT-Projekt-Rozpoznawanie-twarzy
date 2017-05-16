@@ -13,7 +13,7 @@ from progress.bar import Bar
 face_cascade = cv2.CascadeClassifier("haarcascade_frontalface_alt.xml")
 
 # wybor algorytmu rozpoznajacego twarz
-recognizer = cv2.createFisherFaceRecognizer()
+recognizer = cv2.createLBPHFaceRecognizer(1, neighbors=10)
 
 # zmienna przechowujaca adres IP bazy danych
 ip_server = None
@@ -113,6 +113,8 @@ def add_image(images, labels, choise="camera"):
                 key = cv2.waitKey(100)
                 if key == 27:
                     photo_counter = 10
+                    labels = []
+                    images = []
                     break
             if photo_counter >= 10:
                 cv2.destroyAllWindows()
@@ -200,6 +202,10 @@ def is_number(s):
 
 
 if __name__ == '__main__':
+    train_or_update = True
+    if len(sys.argv) > 1:
+        train_or_update = False
+        recognizer.load(sys.argv[1])
     ip_server = raw_input("Podaj adres IP serwera: ")
     while True:
         images, labels = [], []
@@ -222,13 +228,18 @@ if __name__ == '__main__':
                         break
                     else:
                         print "Bledna odpowiedz"
+
+        # wykonanie treningu i zapisanie
+        if train_or_update:
             images, labels = get_images_and_labels(images, labels, "./" + path_photos)
-            print "\nTrwa trenowanie"
-        if len(images) == len(labels) and len(images) > 1:
-            # wykonanie treningu i zapisanie
+            print "\nTrwa trenowanie klasyfikatora"
             recognizer.train(images, np.array(labels))
-            print "Trwa zapisywanie klasyfikatora do pliku"
-            recognizer.save("wytrenowany_plik.mdl")
-            print "Koniec treningu"
         else:
-            print "Blad treningu"
+            if len(images) == len(labels) and len(images) > 0:
+                print "\nTrwa aktualizacja klasyfikatora"
+                recognizer.update(images, np.array(labels))
+            else:
+                print "Brak plikow do dodania"
+        print "Trwa zapisywanie klasyfikatora do pliku"
+        recognizer.save("wytrenowany_plik.mdl")
+        print "Koniec treningu"

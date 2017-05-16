@@ -13,7 +13,7 @@ camera_width = 640
 camera_hight = 480
 
 # wybor algorytmu rozpoznajacego twarze
-recognizer = cv2.createFisherFaceRecognizer()
+recognizer = cv2.createLBPHFaceRecognizer(1,neighbors=12)
 
 # Zaladuj plik z klasyfikatorami do wykrycia twarzy
 face_cascade = cv2.CascadeClassifier("haarcascade_frontalface_alt.xml")
@@ -70,21 +70,20 @@ def detect_faces():
     while True:
         # przekonwertuj na odcienie szarosci
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        gray = cv2.equalizeHist(gray)
         # wykryj twarze
-        faces = face_cascade.detectMultiScale(gray, 1.3, 6)
+        faces = face_cascade.detectMultiScale(gray, 1.3, 8)
 
 
 '''  MAIN
 ----------------------------------------------------------------------------------------'''
 if __name__ == '__main__':
-    try:
+    #try:
         # uruchomienie watkow odpowiedzialnych za wykonywanie klatek i wykrywanie twarzy
         thread.start_new_thread(make_frame, ())
         thread.start_new_thread(detect_faces, ())
 
         # wybor pliku z wytrenowanymi twarzami z poziomu komendy konsolowej
-        if len(sys.arg) > 0:
+        if len(sys.argv) > 1:
             recognizer.load(sys.argv[1])
         else:
             recognizer.load("wytrenowany_plik.mdl")
@@ -113,9 +112,13 @@ if __name__ == '__main__':
                         # wykonanie zapytania wyszukujacego osobe na podstawie etykiety
                         c.execute("SELECT * FROM Osoby where LABEL = '%d'" % nbr_predicted)
                         person = c.fetchall()
+                        if len(person) > 0:
                         # dodanie do klatki napisow o znalezionej osobie i wspolczynniku dopasowania obrazow
-                        cv2.putText(frame, str(person[0][1]) + " " + str(person[0][2]), (x + 5, y + 15),
-                                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
+                            cv2.putText(frame, str(person[0][1]) + " " + str(person[0][2]), (x + 5, y + 15),
+                                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
+                        else:
+                            cv2.putText(frame, str(nbr_predicted), (x + 5, y + 15),
+                                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2) 
                         cv2.putText(frame, str(conf), (x + 5, y + h - 5),
                                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
                     # dodanie ramki do klatki w okolo wykrytej twarzy
@@ -129,7 +132,9 @@ if __name__ == '__main__':
             if key == 27:
                 cv2.destroyWindow("Wykrywanie twarzy")
                 break
-    except Exception:
+            if key == 110:
+                recognizer.load("wytrenowany_plik.mdl")
+    #except Exception:
         camera.stop_preview()
         cv2.destroyAllWindows()
         sys.exit()
