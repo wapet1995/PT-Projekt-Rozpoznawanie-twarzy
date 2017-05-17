@@ -6,13 +6,6 @@
 \usepackage{graphicx}
 \usepackage{geometry}
 \usepackage{longtable}
- \geometry{
-	a4paper,
-	total={170mm,230mm},
-	left=30mm,
-	right=30mm,
-	top=30mm,
-}
 \usepackage{indentfirst}
 \usepackage{hyperref} 
 \hypersetup{
@@ -27,7 +20,7 @@
 \setlength{\parindent}{25pt}
 \setlength{\parskip}{4pt}
 \pagestyle{plain}
-\hyphenation{Rozpoznawanie twarzy i œledzenie ruchu Podstawy Teleinformatyki EigenFace FisherFace danych}
+\hyphenation{Rozpoznawanie twarzy i œledzenie ruchu Podstawy Teleinformatyki EigenFace FisherFace danych pliku Python szaroœci obrazów osobowych klasyfikatora podstawie osoby}
 \frenchspacing
 \widowpenalty=10000
 \clubpenalty=10000
@@ -60,10 +53,11 @@
 	\section{Wymagania}
 	\subsection{Wymagania funkcjonalne}
 	Wymagania funkcjonalne systemu zebrane zosta³y w Tabeli \ref{tab:wymagania_funkcjonalne}. 
-	\begin{longtable}[!ht]{|p{4cm}|p{8cm}|} 
+	\begin{longtable}[!ht]{|p{3cm}|p{7cm}|} 
 		\caption{Tabela wymagañ funkcjonalnych systemu}
 		\label{tab:wymagania_funkcjonalne}\\
-		\hline	
+		\hline
+		Funkcja & Opis \\ \hline	
 		Œledzenie ruchu & Dynamiczne zaznaczanie twarzy na klatce pobranej na ¿ywo z kamery \\ \hline
 		Zliczanie liczby osoby & Podanie liczby osób znajduj¹cych siê w danych chwili w obiektywie kamery\\ \hline
 		Rozpoznawanie twarzy & Na podstawie wykrytych twarzy rozpoznanie osoby wg etykiety przypisanej podczas nauki klasyfikatora\\ \hline
@@ -79,14 +73,17 @@
 		\item szerokoœæ widzenia obiektywu to 70 stopni,
 		\item ograniczona pamiêæ bazy danych do 32GB (pojemnoœæ karty pamiêci),
 		\item oprogramowanie zgodne z urz¹dzeniem Raspberry Pi,
+		\item ograniczenie liczby zdjêæ w klasyfikatorze, plik klasyfikatora nie mo¿e przekraczaæ 300 MB,
 		\item wymagany interpreter jêzyka Python w wersji 2.7.
 	\end{itemize*}
+\newpage
 	\subsection{Wymagania sprzêtowe}
 	Niezbêdne, minimalne wymagania do uruchomienia systemu to:
 		\begin{itemize*}
 			\item mikrokomputer Raspberry Pi 3,
 			\item system operacyjny rasbian-jessie dla Raspberry Pi,
 			\item dowolna dedykowana kamera Raspberry Pi,
+			\item pamiêæ karty graficznej ustawiona minimum na 256 Mb,
 			\item zasilacz micro USB 5V co najmniej 2A,
 			\item karta pamiêci micro SD minimum 32Gb klasy 10.
 	\end{itemize*}
@@ -95,7 +92,7 @@
 		\item jêzyk programowania Python 2.7,
 		\item Linux rasbian-jessie,
 		\item IDE PyCharm,
-		\item Latex.
+		\item TeXStudio.
 	\end{itemize*}
 
 	\newpage
@@ -111,7 +108,7 @@
 	\end{itemize*}
 	Zadania Macieja Marciniaka:
 	\begin{itemize*}
-		\item zapoznanie siê z algorytmem FisherFace oraz LBPH,
+		\item zapoznanie siê z algorytmem FisherFace oraz LPBH,
 		\item prowadzenie dokumentacji projektu,
 		\item implementacja wykrywania i zliczania twarzy na obrazie,
 		\item implementacja mechanizmu rozbudowy korpusu trenuj¹cego \linebreak klasyfikator.
@@ -120,9 +117,8 @@
 	Przygotowano orientacyjny harmonogram pracy roz³o¿ony na wszystkie zajêcia projektowe. Wyszczególniono zadania jak równie¿ osobê/osoby \linebreak zajmuj¹ce siê danym fragmentem. Zobrazowano  harmonogram \linebreak na Rysunku~\ref{fig:harmonogram_prac}.
 	
 	\begin{figure}[h]
-		\hspace{-0.5cm}
 		\centering
-		\includegraphics[width=15cm]{harmonogram_prac.png}
+		\includegraphics[width=16cm]{harmonogram_prac.png}
 		\caption{Harmonogram prac}
 		\label{fig:harmonogram_prac}
 	\end{figure}
@@ -130,6 +126,7 @@
 	\section{Algorytmy rozpoznawania twarzy}
 	\subsection{EigenFace}
 	\input{EigenFace.tex}
+	\newpage
 	\subsection{FisherFace}
 	\input{FisherFace.tex}
 	\subsection{LPBH}
@@ -150,5 +147,82 @@
 	
 	\newpage
 	\section{Biblioteka OpenCV}
-	Biblioteka OpenCV jest bardzo rozbudowana i posiadaj¹ca wiele zastosowañ, podczas realizacji projektu u¿yto zaledwie kilku metod do obróbki zdjêæ oraz samego rozpoznawania twarzy. Wykorzystano bibliotekê w wersji 2.4.9,  poniewa¿ dopiero od wersji 2.4 pojawi³y siê funkcje implementuj¹ce algorytmy FisherFace oraz LPBH. Nowsze wersje OpenCV s¹ problematyczne w instalacji w jêzyku Python 2.7 w systemie Linux. 
+	Biblioteka OpenCV jest bardzo rozbudowana i posiadaj¹ca wiele zastosowañ, podczas realizacji projektu u¿yto zaledwie kilku metod do obróbki zdjêæ oraz samego rozpoznawania twarzy. Wykorzystano bibliotekê w wersji 2.4.9,  poniewa¿ dopiero od wersji 2.4 pojawi³y siê funkcje implementuj¹ce algorytmy FisherFace oraz LPBH. Nowsze wersje OpenCV s¹ problematyczne w instalacji w jêzyku Python 2.7 dla systemu Linux rasbian-jessie.
+	
+	Metody biblioteki OpenCV u¿yte do realizacji projektu:
+	\begin{itemize*}
+		\item createLBPHFaceRecognizer(radius=1, neighbors=8, grid\_x=8, grid\_y=8, threshold=DBL\_MAX) --- 
+		 
+		Tworzy obiekt s³u¿¹cy do rozpoznawania twarzy wed³ug algorytmu Local Pattern Binary Histogram. Parametr radius, domyœlnie ustawiony na 1, oznacza d³ugoœæ promienia branego pod uwagê przy liczeniu macierzy s¹siedztwa. Neighbors (domyœlnie 8) decyduje o, mo¿na tak powiedzieæ, rozdzielczoœci wykonywanych obliczeñ. Wartoœæ ustawiona na 8 daje 256 ró¿nych kombinacji ustawienia progowania. Grid\_x i Grid\_y wyznacza liczbê komórek odpowiednio na szerokoœæ i wysokoœæ d³ugoœci od danej komórki branej pod uwagê w obliczeniach. Threshold=DBL\_MAX jest progiem odleg³oœci do jakiej rozpoznawanie twarzy daje wynik, po przekroczeniu progu zwracana jest wartoœæ -1 zamiast etykiety zdjêcia.
+		\newline
+		\item CascadeClassifier("haarcascade\_frontalface\_alt.xml") ---
+		
+		Zwraca klasyfikator s³u¿¹cy do wykrywania twarzy. Klasyfikator wgrywany jest z pliku podanego w argumencie, jest to plik XML.
+		\newline
+		\item cvtColor(frame, cv2.COLOR\_BGR2GRAY) ---
+		
+		Zwraca zmodyfikowany obraz, podany jako pierwszy parametr, w skali szaroœci.
+		\newline
+		\item face\_cascade.detectMultiScale(gray, 1.3, 8) ---
+		
+		Funkcja wykrywaj¹ca twarz na podstawie wgranego klasyfikatora. Pierwszym parametrem jest zdjêcie, najlepiej w skali szaroœci, kolejne argumenty odpowiadaj¹ za strojenie.
+		\newline
+		\item recognizer.train(images, np.array(labels)) ---
+		
+		Obiekt recognizer s³u¿y do rozpoznawnia twarzy, metoda wykonana na tym obiekcie ma na celu wytrenowanie klasyfikatora, aby potrafi³ rozpoznaæ twarze umieszczone w tablicy zdjêæ (images) oraz przypisaæ do nich odpowiednie etykiety (labels).
+		\newpage
+		\item recognizer.load(file) ---
+		
+		Metoda load wykonana na obiekcie reconizer z argumentem w postaci pliku s³u¿y do~wczytania wytrenowanego wczeœniej klasyfikatora z zdjêciami \linebreak do rozpoznania.
+		\newline
+		\item recognizer.update(images, np.array(labels))---
+		
+		Funkcja update ma podobne dzia³ania jak train, w przeciwieñstwie do niej nie tworzy nowego klasyfikatora, lecz modyfikuje wczeœniej wgrany. Metoda jest dostêpna tylko dla recognizera utworzonego dla algorytmu LPBH.
+		\newline
+		\item recognizer.save(plik) ---
+		
+		Metoda save wykonana na obiekcie recognizer z argumentem w postaci pliku s³u¿y do zapisania wytrenowanego wczeœniej klasyfikatora z zdjêciami do rozpoznania.
+		\newline
+		\item putText(frame, text, (x, y), cv2.FONT\_HERSHEY\_SIMPLEX, 0.5, (b, g, r), 2) ---
+		
+		Funkcja pozwalaj¹ca zmodyfikowaæ obraz frame w taki sposób, aby dodaæ do niego tekst text w miejscu o wspó³rzêdnych x,y oraz w kolorze ustalonym wed³ug schematu BRG.
+		\newline
+		\item rectangle(frame, (x, y), (x + w, y + h), (b, g, r), 2) ---
+		
+		Funkcja pozwalaj¹ca zmodyfikowaæ obraz frame w taki sposób, aby dodaæ do niego ramkê w miejscu o wspó³rzêdnych x,y i d³ugoœci boków w i h oraz w kolorze ustalonym wed³ug schematu BRG.
+		\newline
+		\item imshow(name, frame) ---
+		
+		Imshow s³u¿y do wyœwietlenia obrazu frame w oknie nazwanym name.
+		\newline
+		\item destroyAllWindows() --- 
+		
+		Funkcja wykonuje dok³adnie to na co wskazuje jej nazwa, to znaczy zamyka (niszczy) wszystkie otwarte okna.
+	\end{itemize*}
+		\newpage
+	\section{Architektura rozwi¹zania}
+		Proponowane rozwi¹zanie polega na uruchomieniu programu œledz¹cego ruch i rozpoznaj¹cego twarze na urz¹dzeniu Raspberry Pi oraz wgraniu wytrenowanego pliku z baz¹ zdjêæ. Specjalny plik, do wczytania, tworzy siê najlepiej na komputerze o wiêkszej mocy obliczeniowej, na przyk³ad komputerze stacjonarnym, a nastêpnie przesy³a zdalnie do Raspberry Pi (pos³u¿yæ mo¿e w tym celu program WinSCP). Schemat po³¹czeñ elementów systemu znajduje siê na Rysunku \ref{fig:Schemat_systemu}.
+		\begin{figure}[!h]
+			\centering
+			\includegraphics[width=15cm]{Schemat_systemu.png}
+			\caption{Ogólny schemat systemu}
+			\label{fig:Schemat_systemu}
+		\end{figure}
+	\newpage
+	\section{Napotkane problemy}
+	Podczas implementacji systemu g³ównym problemem by³a niska wydajnoœæ urz¹dzenia Raspberry Pi. Pomimo procesora posiadaj¹cego cztery rdzenie, ka¿dy z nich o taktowaniu 1.2GHz, to program wykonuje siê wolno. 
+	
+	Skrypt Pythona podzielony zosta³ pomiêdzy w¹tki. Jeden w¹tek pobiera³ aktualne klatki z kamery. Drugi wykonywa³ wyszukiwanie twarzy na skopiowanym i zmodyfikowanym zdjêciu. Modyfikacja polega na sprowadzeniu obrazu do skali szaroœci.Trzeci w¹tek, g³ówny wykonuje rozpoznawanie twarzy oraz przygotowuje wynikowy obraz do wydrukowania na ekranie. 
+	
+	Pomimo takiego roz³o¿enia obci¹¿enia wci¹¿ operacje wykrywania i rozpoznawania twarzy zajmuj¹ du¿o czasu, oko³o 5 sekund. Problem zwi¹zany mo¿e byæ z~ograniczeniami karty graficznej oraz pamiêci ram urz¹dzenia.
+	
+	Inn¹ napotkan¹ trudnoœci¹ jest wielkoœæ pliku z klasyfikatorem rozpoznaj¹cym twarze. Chc¹c uzyskaæ dok³adniejsze wyniki rozpoznawania twarzy algorytmem LPBH nale¿a³o zwiêkszyæ parametr neighbors z 8 do co najmniej 10, skutkuje to znacznym wzrostem pamiêci jak¹ zajmuje plik. Zak³adaj¹c parametr ustawiony na wartoœæ 8, dokument zajmuje oko³o 50 Mb przy wczytanych 260 zdjêciach, zmieniaj¹c wartoœæ na 10 rozmiar pliku wzrasta do 107 MB. Jest to zagro¿enie, gdy dodaj¹c nowe zdjêcia osób przekroczymy dostêpn¹ pamiêæ ram Raspberry Pi. Do dyspozycji mamy 1 Gb ramu, ale nale¿y odj¹æ od tej wartoœci pamiêæ wspó³dzielon¹ dla karty graficznej (oko³o 400 Mb) plus pamiêæ zarezerwowan¹ na system operacyjny.
+	
+	Kolejnym  problemem jest k¹t u³o¿enia twarzy wzglêdem obiektywu jaki algorytm jest w stanie poprawieni rozpoznaæ. Metoda LPBH skuteczna jest w du¿ym stopniu dla twarzy znajduj¹cych siê na wprost kamery. Niewielkie odchylenie g³owy w bok lub w górê powoduje w skrajnym przypadku b³êdne rozpoznanie.
+	
+	Ostatnim z problemów wartych uwagi jest trudnoœæ z wyznaczeniem progu przy którym twarz rozpoznawana jest prawid³owo, a od którego wy¿sze wartoœci s¹ ju¿ nie przypisywane. K³opot polega przede wszystkim w tym, ¿e tak zwane odleg³oœci od wzorca s¹ do siebie bardzo zbli¿one.
+	
+	\newpage
+	\section{Metody minimalizacji problemów}
+	
 \end{document}
