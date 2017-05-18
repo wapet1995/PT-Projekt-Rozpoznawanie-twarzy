@@ -115,12 +115,15 @@ if __name__ == '__main__':
                     else:
                         # rozpoznaj twarze, przypisz wyszukana etykie oraz wspolczynnik odleglosci od originalnego obrazu
                         nbr_predicted, conf = recognizer.predict(cropped)
-                        # polaczenie z baza danych
-                        conn = MySQLdb.connect(host=ip_server, user="maciej", passwd="WApet1995", db="Rozpoznawanie_twarzy_db")
-                        c = conn.cursor()
-                        # wykonanie zapytania wyszukujacego osobe na podstawie etykiety
-                        c.execute("SELECT * FROM Osoby where LABEL = '%d'" % nbr_predicted)
-                        person = c.fetchall()
+                        try:
+							# polaczenie z baza danych
+							conn = MySQLdb.connect(host=ip_server, user="maciej", passwd="WApet1995", db="Rozpoznawanie_twarzy_db")
+							c = conn.cursor()
+							# wykonanie zapytania wyszukujacego osobe na podstawie etykiety
+							c.execute("SELECT * FROM Osoby where LABEL = '%d'" % nbr_predicted)
+							person = c.fetchall()
+                        except Exception:
+							person = []
                         if len(person) > 0:
                         # dodanie do klatki napisow o znalezionej osobie i wspolczynniku dopasowania obrazow
                             cv2.putText(frame, str(person[0][1]) + " " + str(person[0][2]), (x + 5, y + 15),

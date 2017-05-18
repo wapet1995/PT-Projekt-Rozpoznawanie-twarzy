@@ -45,6 +45,7 @@ def take_label_from_database():
             c.execute("INSERT INTO Osoby(NAME, SURNAME) VALUES (%s,%s)", (name, surname))
             c.execute("SELECT LABEL FROM Osoby WHERE NAME = %s and SURNAME = %s", (name, surname))
         label = c.fetchone()[0]
+		conn.commit()
         conn.close()
         return label
     except:
