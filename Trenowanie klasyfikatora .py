@@ -23,7 +23,7 @@ witdh_face = 250
 hight_face = 250
 w_frame = 640
 h_frame = 480
-photos = 10  # liczba zdjec przy dodawaniu kamera
+photos = 5  # liczba zdjec przy dodawaniu kamera
 path_photos = 'baza_zdjec'  # nazwa folderu przechowujacego baze zdjec
 
 
@@ -113,11 +113,11 @@ def add_image(images, labels, choise="camera"):
                 cv2.imshow("Dodawanie zdjecia z kamery", frame)
                 key = cv2.waitKey(100)
                 if key == 27:
-                    photo_counter = 10
+                    photo_counter = photos
                     labels = []
                     images = []
                     break
-            if photo_counter >= 10:
+            if photo_counter >= photos:
                 cv2.destroyAllWindows()
                 camera.release()
                 key = raw_input("Czy chcesz ponownie dodac swoje zdjecia?: T/N \nwybor: ")

@@ -10,7 +10,7 @@ camera_width = 640
 camera_hight = 480
 
 # wybor algorytmu rozpoznajacego twarze
-recognizer = cv2.createLBPHFaceRecognizer(1,neighbors=12)
+recognizer = cv2.createLBPHFaceRecognizer(1,neighbors=10)
 
 # Zaladuj plik z klasyfikatorami do wykrycia twarzy
 face_cascade = cv2.CascadeClassifier("haarcascade_frontalface_alt.xml")
@@ -66,6 +66,7 @@ def make_frame():
             camera.capture(rawCapture, format='bgr', use_video_port=True)
             frame = rawCapture.array
             rawCapture.truncate(0)
+        time.sleep(0.15)
 
 
 '''  wykrywanie twarzy
@@ -77,7 +78,7 @@ def detect_faces():
     while True:
         # przekonwertuj na odcienie szarosci
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        # wykryj twarze
+       # wykryj twarze
         faces = face_cascade.detectMultiScale(gray, 1.3, 8)
 
 
