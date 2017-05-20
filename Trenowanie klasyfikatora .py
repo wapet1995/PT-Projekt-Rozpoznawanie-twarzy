@@ -45,7 +45,7 @@ def take_label_from_database():
             c.execute("INSERT INTO Osoby(NAME, SURNAME) VALUES (%s,%s)", (name, surname))
             c.execute("SELECT LABEL FROM Osoby WHERE NAME = %s and SURNAME = %s", (name, surname))
         label = c.fetchone()[0]
-		conn.commit()
+        conn.commit()
         conn.close()
         return label
     except:
@@ -211,7 +211,31 @@ if __name__ == '__main__':
     while True:
         images, labels = [], []
         is_all_persons = False
-        while not is_all_persons:
+        while not is_all_persons: 
+		 
+		  
+		   
+		    
+			 
+			  
+			    
+			    
+				  
+				  
+				   
+				      
+					   
+					     
+						  
+						  
+						   
+						    
+						 
+						  
+						   
+						     
+							 
+							  
             choise = raw_input("Wybierz sposob dodawania: \n\t camera - dodanie zdjec bezposrednio z kamery, "
                                "\n\t <pelna sciezka folderu> - pelna sciezka do folderu z nowymi zdjeciami \n\t q - "
                                "wyjscie z programu \n wybor: ")
