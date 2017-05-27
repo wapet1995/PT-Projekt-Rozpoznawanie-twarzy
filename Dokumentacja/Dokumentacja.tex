@@ -1,4 +1,4 @@
-\documentclass[12pt,a4paper, twoside]{article}
+\documentclass[12pt,a4paper, twoside]{report}
 \usepackage{polski}
 \usepackage[cp1250]{inputenc}
 \usepackage{mdwlist}
@@ -27,7 +27,7 @@
 
 \title{
 	\begin{center}
-	\emph{Projekt Podstawy Teleinformatyki \newline Rozpoznawanie twarzy i œledzenie ruchu}	\end{center}}
+	\emph{Projekt Podstawy Teleinformatyki Rozpoznawanie twarzy i œledzenie ruchu}	\end{center}}
 \author{Maciej Marciniak \and Damian Filipowicz}
 
 \begin{document}
@@ -46,14 +46,16 @@
 		\item mikrokomputera Raspberry Pi 3,
 		\item dedykowanej kamery Raspberry Pi 5Mpix.
 	\end{itemize*}
-	\section{Dlaczego rozpoznawanie twarzy}
-	Projekt realizowany jest w ramach przedmiotu Podstawy Teleinformatyki. Wybrano temat ,,Rozpoznawanie~twarzy~i~œledzenie~ruchu'' z wielu ró¿nych mo¿liwoœci, poniewa¿ jest to mo¿liwoœæ poznania problematyki, która przyda siê nam w przygotowaniu siê do tworzenia pracy in¿ynierskiej. Identyfikacja osób jest form¹ zabezpieczeñ biometryczny, która jest œciœle zwi¹zana z dziedzin¹ bezpieczeñstwa systemów informatyczny, jednoczeœnie z wybran¹ przez nas specjalizacj¹ kierunku studiów.
 	
-	\newpage
-	\section{Wymagania}
-	\subsection{Wymagania funkcjonalne}
+	\chapter{Dlaczego rozpoznawanie twarzy}
+	Projekt realizowany jest w ramach przedmiotu Podstawy Teleinformatyki. Wybrano temat ,,Rozpoznawanie~twarzy~i~œledzenie~ruchu'' z wielu ró¿nych mo¿liwoœci, poniewa¿ jest to praktyczna okazja poznania problematyki zabezpieczeñ systemów informatycznych, która przyda nam siê w przygotowaniach do tworzenia pracy in¿ynierskiej. Identyfikacja osób jest form¹ zabezpieczeñ biometryczny, która jest œciœle zwi¹zana z dziedzin¹ bezpieczeñstwa systemów informatyczny. Znajdujemy siê na specjalizacji w³aœnie zwi¹zanej z bezpieczeñstwem, zatem wybrany przez nas temat projektu jest œciœle zwi¹zany z problematyk¹ jak¹ zajmuje siê nasz kierunek studiów.
+	
+	W przysz³oœci implementacjê projektu wykorzystaæ bêdziemy mogli podczas tworzenia pracy in¿ynierskiej.
+	
+	\chapter{Wymagania}
+	\section{Wymagania funkcjonalne}
 	Wymagania funkcjonalne systemu zebrane zosta³y w Tabeli \ref{tab:wymagania_funkcjonalne}. 
-	\begin{longtable}[!ht]{|p{3cm}|p{7cm}|} 
+	\begin{longtable}[!ht]{|p{4cm}|p{8cm}|} 
 		\caption{Tabela wymagañ funkcjonalnych systemu}
 		\label{tab:wymagania_funkcjonalne}\\
 		\hline
@@ -67,7 +69,7 @@
 		Trenowanie klasyfikatora & Wykonanie pliku klasyfikatora na podstawie bazy zdjêæ \\ \hline
 	\end{longtable}
 	
-	\subsection{Wymagania pozafunkcjonalne}
+	\section{Wymagania pozafunkcjonalne}
 	Zak³ada siê nastêpuj¹ce wymagania pozafunkcjonalne systemu:
 	\begin{itemize*}
 		\item szerokoœæ widzenia obiektywu to 70 stopni,
@@ -76,8 +78,8 @@
 		\item ograniczenie liczby zdjêæ w klasyfikatorze, plik klasyfikatora nie mo¿e przekraczaæ 300 MB,
 		\item wymagany interpreter jêzyka Python w wersji 2.7.
 	\end{itemize*}
-\newpage
-	\subsection{Wymagania sprzêtowe}
+
+	\section{Wymagania sprzêtowe}
 	Niezbêdne, minimalne wymagania do uruchomienia systemu to:
 		\begin{itemize*}
 			\item mikrokomputer Raspberry Pi 3,
@@ -87,7 +89,7 @@
 			\item zasilacz micro USB 5V co najmniej 2A,
 			\item karta pamiêci micro SD minimum 32Gb klasy 10.
 	\end{itemize*}
-	\subsection{Œrodowisko pracy}
+	\section{Œrodowisko pracy}
 	\begin{itemize*}
 		\item jêzyk programowania Python 2.7,
 		\item Linux rasbian-jessie,
@@ -95,10 +97,9 @@
 		\item TeXStudio.
 	\end{itemize*}
 
-	\newpage
-	\section{Organizacja pracy}
+	\chapter{Organizacja pracy}
 	Link do repozytorium GitHub: \textcolor{blue}{\href{https://github.com/wapet1995/PT-Projekt-Rozpoznawanie-twarzy}{Rozpoznawanie twarzy i œledzenie ruchu}}
-	\subsection{Podzia³ pracy}
+	\section{Podzia³ pracy}
 	Zadania Damiana Filipowicza:
 	\begin{itemize*}
 		\item zapoznanie siê z algorytmem EigenFace,
@@ -108,12 +109,12 @@
 	\end{itemize*}
 	Zadania Macieja Marciniaka:
 	\begin{itemize*}
-		\item zapoznanie siê z algorytmem FisherFace oraz LPBH,
+		\item zapoznanie siê z algorytmem FisherFace oraz LBPH,
 		\item prowadzenie dokumentacji projektu,
 		\item implementacja wykrywania i zliczania twarzy na obrazie,
 		\item implementacja mechanizmu rozbudowy korpusu trenuj¹cego \linebreak klasyfikator.
 	\end{itemize*}
-	\subsection{Harmonogram pracy}
+	\section{Harmonogram pracy}
 	Przygotowano orientacyjny harmonogram pracy roz³o¿ony na wszystkie zajêcia projektowe. Wyszczególniono zadania jak równie¿ osobê/osoby \linebreak zajmuj¹ce siê danym fragmentem. Zobrazowano  harmonogram \linebreak na Rysunku~\ref{fig:harmonogram_prac}.
 	
 	\begin{figure}[h]
@@ -122,17 +123,18 @@
 		\caption{Harmonogram prac}
 		\label{fig:harmonogram_prac}
 	\end{figure}
-\newpage
-	\section{Algorytmy rozpoznawania twarzy}
-	\subsection{EigenFace}
+
+
+	\chapter{Algorytmy rozpoznawania twarzy}
+	\section{EigenFace}
 	\input{EigenFace.tex}
 	\newpage
-	\subsection{FisherFace}
+	\section{FisherFace}
 	\input{FisherFace.tex}
-	\subsection{LPBH}
+	\section{LBPH}
 	\input{LPBH.tex}
 	\newpage
-	\subsection{Wybór algorytmu}
+	\section{Wybór algorytmu}
 	Podsumowuj¹c algorytm FisherFace obarczony jest mniejszym stopniem b³êdów ni¿ EigenFace. Na Rysunku \ref{fig:wykres_algorytmow} przedstawiono wykres efektywnoœci wybranych algorytmów, jak mo¿na zauwa¿yæ najbardziej zawodny jest EigenFace, zaœ bezkonkurencyjny FisherFace. Najlepsza implementacja przy pe³nym widoku twarzy ma poziom b³êdów rzêdu 1\% w porównaniu do blisko 25\% EigenFace.
 	\begin{figure}[!h]
 		\centering
@@ -141,13 +143,13 @@
 		\label{fig:wykres_algorytmow}
 	\end{figure}
 	
-	Algorytm EigenFace mimo stosunkowo niewielkich wymagañ obliczeniowych posiada bardzo s³abe wyniki przy rozpoznawaniu twarzy. Zale¿y nam jednak, aby system by³ w miarê mo¿liwoœci niezawodny st¹d metoda zostaje odrzucona z branych pod uwagê. Podczas testów w³asnych algorytm FisherFace okaza³ siê mniej skuteczny ni¿ metoda LPBH. Fisherface posiada jedn¹ g³ówn¹ wadê w porównaniu do LPBH, jest ni¹ brak mo¿liwoœci doszkalania klasyfikatora. Z punktu widzenia systemu posiadaj¹cego osoby czêsto przybywaj¹ce do bazy jest to bardzo niewydajne i problematyczne.
+	Algorytm EigenFace mimo stosunkowo niewielkich wymagañ obliczeniowych posiada bardzo s³abe wyniki przy rozpoznawaniu twarzy. Zale¿y nam jednak, aby system by³ w miarê mo¿liwoœci niezawodny st¹d metoda zostaje odrzucona z branych pod uwagê. Podczas testów w³asnych algorytm FisherFace okaza³ siê mniej skuteczny ni¿ metoda LBPH. Fisherface posiada jedn¹ g³ówn¹ wadê w porównaniu do LBPH, jest ni¹ brak mo¿liwoœci doszkalania klasyfikatora. Z punktu widzenia systemu posiadaj¹cego osoby czêsto przybywaj¹ce do bazy jest to bardzo niewydajne i problematyczne.
 	
-	Podsumowuj¹c, metoda Local Pattern Binary Histogram, w skrócie LPBH posiada najwiêcej zalet, pomimo du¿ych problemów z rozpoznawaniem twarzy znajduj¹cej siê bokiem.
+	Podsumowuj¹c, metoda Local Pattern Binary Histogram, w skrócie LBPH posiada najwiêcej zalet, pomimo du¿ych problemów z rozpoznawaniem twarzy znajduj¹cej siê bokiem.
 	
-	\newpage
-	\section{Biblioteka OpenCV}
-	Biblioteka OpenCV jest bardzo rozbudowana i posiadaj¹ca wiele zastosowañ, podczas realizacji projektu u¿yto zaledwie kilku metod do obróbki zdjêæ oraz samego rozpoznawania twarzy. Wykorzystano bibliotekê w wersji 2.4.9,  poniewa¿ dopiero od wersji 2.4 pojawi³y siê funkcje implementuj¹ce algorytmy FisherFace oraz LPBH. Nowsze wersje OpenCV s¹ problematyczne w instalacji w jêzyku Python 2.7 dla systemu Linux rasbian-jessie.
+	
+	\chapter{Biblioteka OpenCV}
+	Biblioteka OpenCV jest bardzo rozbudowana i posiadaj¹ca wiele zastosowañ, podczas realizacji projektu u¿yto zaledwie kilku metod do obróbki zdjêæ oraz samego rozpoznawania twarzy. Wykorzystano bibliotekê w wersji 2.4.9,  poniewa¿ dopiero od wersji 2.4 pojawi³y siê funkcje implementuj¹ce algorytmy FisherFace oraz LBPH. Nowsze wersje OpenCV s¹ problematyczne w instalacji w jêzyku Python 2.7 dla systemu Linux rasbian-jessie.
 	
 	Metody biblioteki OpenCV u¿yte do realizacji projektu:
 	\begin{itemize*}
@@ -170,14 +172,14 @@
 		\item recognizer.train(images, np.array(labels)) ---
 		
 		Obiekt recognizer s³u¿y do rozpoznawnia twarzy, metoda wykonana na tym obiekcie ma na celu wytrenowanie klasyfikatora, aby potrafi³ rozpoznaæ twarze umieszczone w tablicy zdjêæ (images) oraz przypisaæ do nich odpowiednie etykiety (labels).
-		\newpage
+		\newline		
 		\item recognizer.load(file) ---
 		
 		Metoda load wykonana na obiekcie reconizer z argumentem w postaci pliku s³u¿y do~wczytania wytrenowanego wczeœniej klasyfikatora z zdjêciami \linebreak do rozpoznania.
 		\newline
 		\item recognizer.update(images, np.array(labels))---
 		
-		Funkcja update ma podobne dzia³ania jak train, w przeciwieñstwie do niej nie tworzy nowego klasyfikatora, lecz modyfikuje wczeœniej wgrany. Metoda jest dostêpna tylko dla recognizera utworzonego dla algorytmu LPBH.
+		Funkcja update ma podobne dzia³ania jak train, w przeciwieñstwie do niej nie tworzy nowego klasyfikatora, lecz modyfikuje wczeœniej wgrany. Metoda jest dostêpna tylko dla recognizera utworzonego dla algorytmu LBPH.
 		\newline
 		\item recognizer.save(plik) ---
 		
@@ -190,7 +192,7 @@
 		\item rectangle(frame, (x, y), (x + w, y + h), (b, g, r), 2) ---
 		
 		Funkcja pozwalaj¹ca zmodyfikowaæ obraz frame w taki sposób, aby dodaæ do niego ramkê w miejscu o wspó³rzêdnych x,y i d³ugoœci boków w i h oraz w kolorze ustalonym wed³ug schematu BRG.
-		\newline
+		\newpage
 		\item imshow(name, frame) ---
 		
 		Imshow s³u¿y do wyœwietlenia obrazu frame w oknie nazwanym name.
@@ -199,30 +201,159 @@
 		
 		Funkcja wykonuje dok³adnie to na co wskazuje jej nazwa, to znaczy zamyka (niszczy) wszystkie otwarte okna.
 	\end{itemize*}
-		\newpage
-	\section{Architektura rozwi¹zania}
+		
+		
+	\chapter{Architektura rozwi¹zania}
 		Proponowane rozwi¹zanie polega na uruchomieniu programu œledz¹cego ruch i rozpoznaj¹cego twarze na urz¹dzeniu Raspberry Pi oraz wgraniu wytrenowanego pliku z baz¹ zdjêæ. Specjalny plik, do wczytania, tworzy siê najlepiej na komputerze o wiêkszej mocy obliczeniowej, na przyk³ad komputerze stacjonarnym, a nastêpnie przesy³a zdalnie do Raspberry Pi (pos³u¿yæ mo¿e w tym celu program WinSCP). Schemat po³¹czeñ elementów systemu znajduje siê na Rysunku \ref{fig:Schemat_systemu}.
 		\begin{figure}[!h]
 			\centering
-			\includegraphics[width=15cm]{Schemat_systemu.png}
+			\includegraphics[width=11.2cm]{Schemat_systemu.png}
 			\caption{Ogólny schemat systemu}
 			\label{fig:Schemat_systemu}
 		\end{figure}
-	\newpage
-	\section{Napotkane problemy}
+
+
+	\chapter{Napotkane problemy}
 	Podczas implementacji systemu g³ównym problemem by³a niska wydajnoœæ urz¹dzenia Raspberry Pi. Pomimo procesora posiadaj¹cego cztery rdzenie, ka¿dy z nich o taktowaniu 1.2GHz, to program wykonuje siê wolno. 
 	
 	Skrypt Pythona podzielony zosta³ pomiêdzy w¹tki. Jeden w¹tek pobiera³ aktualne klatki z kamery. Drugi wykonywa³ wyszukiwanie twarzy na skopiowanym i zmodyfikowanym zdjêciu. Modyfikacja polega na sprowadzeniu obrazu do skali szaroœci.Trzeci w¹tek, g³ówny wykonuje rozpoznawanie twarzy oraz przygotowuje wynikowy obraz do wydrukowania na ekranie. 
 	
-	Pomimo takiego roz³o¿enia obci¹¿enia wci¹¿ operacje wykrywania i rozpoznawania twarzy zajmuj¹ du¿o czasu, oko³o 5 sekund. Problem zwi¹zany mo¿e byæ z~ograniczeniami karty graficznej oraz pamiêci ram urz¹dzenia.
+	Pomimo takiego roz³o¿enia obci¹¿enia wci¹¿ operacje wykrywania i rozpoznawania twarzy zajmuj¹ du¿o czasu, oko³o 5 sekund. Problem zwi¹zany mo¿e byæ z~ograniczeniami karty graficznej oraz pamiêci ram urz¹dzenia. Rozwi¹zaniem jest utworzenie dodatkowych w¹tków operuj¹cych na ka¿dej twarzy osobno, powoduje niestety takie rozwi¹zanie bardzo czêste miganie ramek, przez co obraz jest nieczytelny. Problem z obrazem jest równie¿ odpowiednie dobranie kolorów tekstu i ramek.
 	
-	Inn¹ napotkan¹ trudnoœci¹ jest wielkoœæ pliku z klasyfikatorem rozpoznaj¹cym twarze. Chc¹c uzyskaæ dok³adniejsze wyniki rozpoznawania twarzy algorytmem LPBH nale¿a³o zwiêkszyæ parametr neighbors z 8 do co najmniej 10, skutkuje to znacznym wzrostem pamiêci jak¹ zajmuje plik. Zak³adaj¹c parametr ustawiony na wartoœæ 8, dokument zajmuje oko³o 50 Mb przy wczytanych 260 zdjêciach, zmieniaj¹c wartoœæ na 10 rozmiar pliku wzrasta do 107 MB. Jest to zagro¿enie, gdy dodaj¹c nowe zdjêcia osób przekroczymy dostêpn¹ pamiêæ ram Raspberry Pi. Do dyspozycji mamy 1 Gb ramu, ale nale¿y odj¹æ od tej wartoœci pamiêæ wspó³dzielon¹ dla karty graficznej (oko³o 400 Mb) plus pamiêæ zarezerwowan¹ na system operacyjny.
+	Inn¹ napotkan¹ trudnoœci¹ jest wielkoœæ pliku z klasyfikatorem rozpoznaj¹cym twarze. Chc¹c uzyskaæ dok³adniejsze wyniki rozpoznawania twarzy algorytmem LBPH nale¿a³o zwiêkszyæ parametr neighbors z 8 do co najmniej 10, skutkuje to znacznym wzrostem pamiêci jak¹ zajmuje plik. Zak³adaj¹c parametr ustawiony na wartoœæ 8, dokument zajmuje oko³o 50 MB przy wczytanych 260 zdjêciach, zmieniaj¹c wartoœæ na 10 rozmiar pliku wzrasta do 107 MB. Jest to zagro¿enie, gdy dodaj¹c nowe zdjêcia osób przekroczymy dostêpn¹ pamiêæ ram Raspberry Pi. Do dyspozycji mamy 1 GB RAMu, ale nale¿y odj¹æ od tej wartoœci pamiêæ wspó³dzielon¹ dla karty graficznej (oko³o 400 MB) plus pamiêæ zarezerwowan¹ na system operacyjny.
 	
-	Kolejnym  problemem jest k¹t u³o¿enia twarzy wzglêdem obiektywu jaki algorytm jest w stanie poprawieni rozpoznaæ. Metoda LPBH skuteczna jest w du¿ym stopniu dla twarzy znajduj¹cych siê na wprost kamery. Niewielkie odchylenie g³owy w bok lub w górê powoduje w skrajnym przypadku b³êdne rozpoznanie.
+	Problem równie¿ jest z tworzeniem klasyfikatora. Jest to operacja wymagaj¹ca wiêkszej mocy obliczeniowej urz¹dzenia. Z tego powodu przeniesiono tworzenie klasyfikatora na osobny komputer posiadaj¹cy wiêksze mo¿liwoœci. Kod programu trenuj¹cego jest przeznaczony równie¿ do pracy na Raspberry, lecz nie jest to zalecane, poniewa¿ istnieje du¿e prawdopodobieñstwo zape³nienia pamiêci RAM co skutkuje wy³¹czeniem lub zawieszeniem siê urz¹dzenia.
+	
+	Kolejnym  problemem jest k¹t u³o¿enia twarzy wzglêdem obiektywu jaki algorytm jest w stanie poprawieni rozpoznaæ. Metoda LBPH skuteczna jest w du¿ym stopniu dla twarzy znajduj¹cych siê na wprost kamery. Niewielkie odchylenie g³owy w bok lub w górê powoduje w skrajnym przypadku b³êdne rozpoznanie.
 	
 	Ostatnim z problemów wartych uwagi jest trudnoœæ z wyznaczeniem progu przy którym twarz rozpoznawana jest prawid³owo, a od którego wy¿sze wartoœci s¹ ju¿ nie przypisywane. K³opot polega przede wszystkim w tym, ¿e tak zwane odleg³oœci od wzorca s¹ do siebie bardzo zbli¿one.
 	
-	\newpage
-	\section{Metody minimalizacji problemów}
+	
+	\chapter{Przygotowanie œrodowiska pracy systemu}
+	System utworzony jest w jêzyku Python 2.7, wiêc aby uruchomiæ program nale¿y posiadaæ odpowiedni¹ wersjê interpretera. Jeœli na urz¹dzeniu znajduj¹ co najmniej dwie instancje interpretera to nale¿y zwróciæ uwagê, na to która uruchamia siê domyœlnie. Program mo¿na uruchomiæ równie¿ z konsoli poleceniem \textit{python~/nazwa\_skryptu/~/parametry/}.
+	
+	Przed uruchomieniem systemu Rozpoznawania i zliczania twarzy wymagane jest posiadanie zainstalowanych w systemie odpowiednich bibliotek. Dla programu ,,Rozpoznawanie i zliczanie twarzy'' nale¿y pobraæ i zainstalowaæ modu³y odpowiedzialne za obs³ugê bazy danych oraz obróbkê graficzn¹. S¹ to odpowiednio biblioteka MySQLdb i OpenCV, pobraæ oraz jednoczeœnie zainstalowaæ mo¿na je za pomoc¹ polecenia konsolowego \textit{python -m pip install Python-MySQLdb Python-OpenCV} wed³ug schematu \textit{python -m pip install /nazwa\_biblioteki1/ /nazwa\_biblioteki2/}. Program trenuj¹cy klasyfikator wymaga dodatkowo bibliotek Numpy, Pillow i Bar. W przypadku problemów z dzia³aniem lub sam¹ instalacj¹ nale¿y pobraæ odpowiednie wersje modu³ów z Internetu (zwróciæ uwagê na wersjê interpretera dla Pythona 2.7 oraz wersjê architektury systemu).
+	
+	Sprawdzenie poprawnoœci dzia³ania modu³ów przeprowadziæ mo¿na przy pomocy uruchomienia z poziomu konsoli systemowej interpretera pythona (polecenie python bez ¿adnych parametrów), a nastêpnie spróbowaæ zaimportowaæ biblioteki do programu poleceniem import. Dla powy¿szych modu³ów bêdzie to odpowiednio \textit{import MySQLdb} oraz \textit{import cv2}. Ka¿de polecenie nale¿y zakoñczyæ klawiszem Enter. Poprawne dzia³anie importowania bibliotek zakoñczy siê bez ¿adnego b³êdu ani komunikatu. Wyjœcie z interpretera odbywa siê za pomoc¹ polecenia exit().
+	
+	
+	\chapter{U¿ytkowanie systemu}
+	Po przygotowaniu i sprawdzeniu poprawnoœci zainstalowanych bibliotek oraz weryfikacji wersji interpretera python mo¿na przejœæ do uruchomienia w³aœciwych programów.
+	
+	\section{Rozpoznawanie i zliczanie twarzy.py}
+	Tak jak zosta³o przedstawione w rozdziale wczeœniej, program \linebreak,,Rozpoznawanie~i~zliczanie~twarzy'' uruchamia siê poleceniem \linebreak\textit{python Rozpoznawanie\ i\ zliczanie\ twarzy} w wersji Linuksowej (raspbian) lub \linebreak\textit{python ''Rozpoznawanie i zliczanie twarzy''}. Forma wywo³ania polecenia wymaga specjalnej formy, poniewa¿ znajduj¹ siê w niej spacje pomiêdzy wyrazami. Program posiada parametry, domyœlnie przy niepodaniu ¿adnego jest to u¿ycie pliku klasyfikatora o nazwie ,,wytrenowany\_plik.mdl'' oraz u¿ycie kamery dedykowanej dla Raspberry. U¿ycie innego zdefiniowanego klasyfikatora wymaga podania po nazwie programu œcie¿ki do pliku z danym klasyfikatorem. Program zaimplementowany jest równie¿ tak, aby móg³ dzia³aæ na urz¹dzeniach innych od Raspberry, w tym wypadku nale¿y w podaæ zawsze nazwê pliku klasyfikatora (nawet jeœli u¿yty zostanie domyœlny) oraz podaæ po tym parametrze s³owo ,,camera''. Zostanie w tym wypadku uruchomiona domyœlna kamera ustawiona w systemie.
+	
+	Po wywo³aniu programu w konsoli pojawi siê proœba o podanie adresu IP pod którym nas³uchuje bazy danych. Program nie posiada zabezpieczenia przed niepoprawnym wpisaniem adresu. Podanie b³êdnego IP wp³ynie na dalsze dzia³anie programu. Chc¹c poprawiæ adres IP nale¿y uruchomiæ program od pocz¹tku. Nastêpnym krokiem jest wczytanie klasyfikatora rozpoznaj¹cego twarz z pliku. Operacja ta mo¿e potrwaæ d³u¿sz¹ chwilê w zale¿noœci od wielkoœci pliku jak i parametrów pamiêci ram urz¹dzenia. Rysunek \ref{fig:podanie_IP} i Rysunek \ref{fig:podanie_IP2} przedstawiaj¹ widok programu z poprawnie podanym adresem IP oraz w trakcie wczytywania klasyfikatora.
+	
+	\begin{figure}[!h]
+		\centering
+		\includegraphics[width=15cm]{dzialanie1.png}
+		\caption{Podanie adresu IP bazy danych (Raspberry)}
+		\label{fig:podanie_IP}
+	\end{figure}
+
+	\begin{figure}[!h]
+		\centering
+		\includegraphics[width=15cm]{dzialanie2.png}
+		\caption{Podanie adresu IP bazy danych (Windows)}
+		\label{fig:podanie_IP2}
+	\end{figure}
+
+	Po wgraniu klasyfikatora pojawi siê nowe okno wyœwietlaj¹ce aktualne klatki z kamery, przedstawione na Rysunku \ref{fig:okno1}. Niestety okno nie jest domyœlnie aktywne, nale¿y na nie klikn¹æ, aby je aktywowaæ. Jeœli w obiektywie kamery nie znajdzie siê ¿adna osoba (twarz) lub twarz nie bêdzie widoczna w ca³oœci, to wyœwietlony zostaje napis, ¿e nie wykryto twarzy w górnym lewym naro¿niku (czerwony napis).
+	
+	\begin{figure}[!h]
+		\centering
+		\includegraphics[width=10.3cm]{dzialanie3.png}
+		\caption{Widok okna programu nieznajduj¹cego twarzy}
+		\label{fig:okno1}
+	\end{figure}
+
+	Rysunek \ref{fig:okno2} przedstawia widok programu jeœli twarz zostanie wykryta oraz rozpoznana. Napis wczeœniej mówi¹cy, ¿e nie znaleziono twarzy zmienia siê na ,,Wykryte twarze: 1''. Oznacza to, ¿e w obiektywie wykryto jedn¹ twarz, wartoœæ liczbowa zmienia siê w zale¿noœci od liczby wykrytych osób. Na obrazie pojawia siê dodatkowo zielona ramka w oko³o twarzy. Jest to obszar, który program traktuje jako twarz. Wewn¹trz ramki znajduje siê w lewym górnym rogu znajduj¹ siê dane wykrytej osoby oraz na w dolnym rogu wzglêdna odleg³oœæ od oryginalnego obrazu znajduj¹cego siê w klasyfikatorze. Dane wykrytej osoby mog¹ pojawiæ siê w dwóch ró¿nych postaciach. Jedn¹ z form jest wartoœæ liczbowa (etykiety przypisanej przez algorytm rozpoznawania twarzy)  oznaczaj¹ca, ¿e powsta³ problem z po³¹czeniem do bazy danych lub ¿e dana osoba znajduje siê w pliku klasyfikatora, lecz nie dosta³a dodana do bazy danych osób. Drug¹ postaci¹, przedstawion¹ na Rysunku \ref{fig:okno2} jest wartoœæ tekstowa pobrana z bazy danych na podstawie etykiety liczbowej przypisanej do danej twarzy.
+	
+	\begin{figure}[!h]
+		\centering
+		\includegraphics[width=10.3cm]{dzialanie5.png}
+		\caption{Widok okna programu znajduj¹cego i rozpoznaj¹cego twarzy}
+		\label{fig:okno2}
+	\end{figure}
+
+	Podczas pracy programu mo¿na aktualizowaæ plik klasyfikatora, bez potrzeby ponownego uruchamiania aplikacji. Wgrywanie na nowo dokumentu odbywa siê po naciœniêciu przycisku ,,n'' w aktywnym oknie przedstawiaj¹cym aktualny widok z kamery. Spowoduje to zawieszenie wyœwietlania obrazu na czas ³adowania nowego pliku. Po zakoñczeniu wgrywania dokumentu program ponownie zacznie wyœwietlaæ i rozpoznawaæ twarze lecz ju¿ na podstawie nowego, wgranego pliku.
+	
+	\section{Trenowanie klasyfikatora.py}
+	Wczeœniej opisy program nie mo¿e dzia³aæ bez pliku klasyfikatora zdjêæ. Ten w³aœnie dokument tworzony jest przy pomocy programu ,,Trenowanie klasyfikatora.py'' uruchamianego poleceniem \textit{python Trenowanie\ klasyfikatora.py} w wersji Linuksowej (rasbian) lub \textit{python ''Trenowanie klasyfikatora.py''} w wersji Windowsowej Program nie posiada dodatkowych parametrów.
+	
+	Po wywo³aniu programu pojawia siê widok konsoli.Tak jak w programie \linebreak,,Rozpoznawanie i zliczanie twarzy.py'' równie¿ jesteœmy proszeni o podanie adresu IP serwera z baz¹ danych. Podanie b³êdnego adresu skutkuje niepod³¹czeniem do bazy danych, ale równie¿ wy³¹czeniem programu. Zatem wa¿ne jest zwrócenie uwagi na poprawne wpisanie danych. Nastêpnym krokiem jest wybór opcji pracy programu, widok aplikacji przedstawiaj¹cy tê operacjê znajduje siê \linebreak na Rysunku~\ref{fig:okno3}.
+	
+	\begin{figure}[!h]
+		\centering
+		\includegraphics[width=15cm]{dzialanie7.png}
+		\caption{Widok okna programu trenuj¹cego --- wybór opcji}
+		\label{fig:okno3}
+	\end{figure}
+
+	Obok wymienionych opcji przedstawiono opis ka¿dej z nich. 
+	\subsection*{Dodawanie z kamery}
+	Wybór dodawania za pomoc¹ sposobu ,,camera'' sprowadza siê do uruchomienia kamery w urz¹dzeniu oraz dodawania obrazów do bazy bezpoœrednio na podstawie zdjêæ robionych na ¿ywo z kamery. Zanim jednak zostanie utworzone okno kamery zostaniemy poproszeni o podanie imienia i nazwiska osoby, której zdjêcia chcemy dodaæ. W przypadku braku podania którejœ z danych zostaniemy poproszeni o podanie jednak wszystkich informacji. Jeœli dane osoby nie znajduj¹ siê w bazie danych osób, to zostan¹ automatycznie dodane, wraz z komunikatem o tym informuj¹cym oraz zostanie przypisana nowa etykieta zdjêcia, któr¹ pos³u¿y do dalszych operacji. Jeœli jednak osoba znajduje siê w bazie danych to bez ¿adnych komunikatów przejdziemy do nastêpnego kroku, czyli zostanie otwarte okno z widokiem z kamery. Okno interfejsu dodawania zdjêæ z kamery przedstawione jest \linebreak na Rysunku \ref{fig:okno4}. Z racji, ¿e istniej¹ ró¿nej rozdzielczoœci kamery, dodawana jest bia³a ramka o rozmiarach 640 na 480 pikseli. Kamera przedstawiona na przyk³adzie ma dok³adnie takie wymiary, zatem nie jest ramka dobrze widoczna. Twarz, aby program próbowa³ j¹ wykryæ znajdowaæ siê musi wewn¹trz bia³ej ramki, informuje o tym czerwony napis w lewym, górnym roku okna. W celach poprawienie jakoœci klasyfikatora, wykryta twarz na zdjêciu powinna mieæ wymiary 250px +/-50px.
+	
+	\begin{figure}[!h]
+		\centering
+		\includegraphics[width=10cm]{dzialanie8.png}
+		\caption{Widok okna programu trenuj¹cego --- okno dodawania z kamery}
+		\label{fig:okno4}
+	\end{figure}
+
+	Jeœli warunek jest spe³niony i zostanie wykryta twarz pojawi siê ramka w oko³o twarzy z napisem wewn¹trz, aby wcisn¹æ klawisz ,,spacja'' w celu wykonania zdjêcia, jeœli jednak warunek nie zostanie spe³niony zostan¹ wyœwietlone odpowiednio komunikaty o tym, ¿eby siê przybli¿yæ lub oddaliæ od obiektywu. Ponad tym za³o¿eniem jest warunek, aby w obiektywie znajdowa³a siê tylko jedna osoba, gdy znajd¹ siê dwie lub wiêcej, program nie zareaguje na próbê wykonania zdjêcia i bêdzie komunikowaæ o problemie.
+	
+	Podczas procesu dodawania zdjêæ za³o¿ono, ¿e dodawane jest 5 zdjêæ danej osoby, wiêksza liczba jest uci¹¿liwa w pracy jak równie¿ nie zwiêksza efektywnoœci. Przy ka¿dym poprawnie wykonanym zdjêciu zwiêkszany jest licznik u góry okna, informuj¹cy o tym ile zdjêæ wykonano i ile zosta³o do wykonania. W ka¿dej chwili mo¿na zrezygnowaæ z procesu dodawania wciskaj¹c przycisk ESC. Po zakoñczeniu dodawania zdjêæ lub anulowaniu procesu, okno kamery zostanie zamkniête oraz zostaniemy zapytani o to czy chcemy ponownie dodaæ zdjêcia danej osoby. Okno zapytania przedstawiono na Rysunku \ref{fig:okno5}.
+	
+	\begin{figure}[!h]
+		\centering
+		\includegraphics[width=15cm]{dzialanie9.png}
+		\caption{Widok okna programu trenuj¹cego --- zapytanie o ponowne dodawanie zdjêæ}
+		\label{fig:okno5}
+	\end{figure}
+
+	Nale¿y w tym kroku zdecydowaæ czy chcemy dodaæ wiêcej swoich zdjêæ, podaj¹c odpowiedŸ ,,T'' (akceptowane s¹ te¿ ma³e litery) lub jeœli chcemy przejœæ do nastêpnego kroku, nie dodaj¹c nowych zdjêæ podajemy odpowiedŸ ,,N''. Jeœli podana odpowiedŸ nie bêdzie prawid³owa bêdziemy pytani do skutku, a¿ zostanie podana odpowiedŸ poprawna. Nastêpny krok odpowiada za decyzjê, czy chcemy dodaæ now¹ osobê do bazy danych. Odpowiedzi s¹ analogiczne do poprzedniego kroku. Na koniec pojawia siê komunikat, ¿e klasyfikator jest w³aœnie trenowany oraz pasek postêpu prac, przedstawiony na Rysunku \ref{fig:okno6}. Po zakoñczeniu trenowania pojawiaj¹ siê komunikaty odpowiednio o zapisywaniu pliku klasyfikatora i zakoñczeniu treningu oraz status programu wraca do widoku wyboru opcji dodawania.
+	
+	\begin{figure}[!h]
+		\centering
+		\includegraphics[width=15cm]{dzialanie10.png}
+		\caption{Widok okna programu trenuj¹cego --- trenowanie}
+		\label{fig:okno6}
+	\end{figure}
+
+	\subsection*{Dodawanie z folderu}
+	Wybieraj¹c opcjê drug¹, czyli podaj¹c pe³n¹ œcie¿kê do folderu z zdjêciami, zostaniemy równie¿ proszeni o podanie imienia i nazwiska jak to by³o przy wyborze dodania z kamery. W podanej œcie¿ce folderu znajdowaæ powinny siê zdjêcia tylko jednej osoby. Po zaakceptowaniu imienia i nazwiska automatycznie analizowane zostaj¹ zdjêcia umieszczone w folderze (brane s¹ pod uwagê pliki tylko z rozszerzeniami .JPG oraz .PNG). Pojawia siê pasek statusu analizy zdjêæ. Widok procesu analizowania plików przedstawiono na Rysunku \ref{fig:okno7}.
+	
+	\begin{figure}[!h]
+		\centering
+		\includegraphics[width=15cm]{dzialanie11.png}
+		\caption{Widok okna programu trenuj¹cego --- analiza zdjêæ z folderu}
+		\label{fig:okno7}
+	\end{figure}
+	
+	Po zakoñczeniu zadania, zostajemy zapytani czy chcemy dodaæ kolejn¹ osobê, jest to analogiczne pytanie do wczeœniej opisanego procesu. Po odpowiedzi przecz¹cej zostaje wykonane trenowanie klasyfikatora. 
+	
+	Ostatnia, trzecia opcja, czyli ,,q'' powoduje wy³¹czenie programu.
+	
+	Podczas dodawania zdjêæ, niezale¿nie od metody dodawane zostaj¹ nowe pliki do folderu z dodanymi ju¿ zdjêciami o nazwie ,,baza\_zdjec''. Ka¿dy plik zostaje oryginalnie nazwany wg schematu:
+	
+	\textit{/etykieta zdjêcia/\_/data dodania zdjêcia (RRRR-MM-DD hh\_mm\_ss)/.JPG}.
+	
+	\chapter{Mo¿liwe zastosowania systemu}
+	System odpowiednio zmodyfikowany móg³by pos³u¿yæ do zliczania osób wchodz¹cych oraz wychodz¹cych z pomieszczenia poprzez umieszczenie dwóch takich podsystemów komunikuj¹cych siê po jednej i po drugiej stronie drzwi. Jeden system zlicza³bym osoby wchodz¹ce, drugi zaœ wychodz¹ce.
+	
+	Innym zastosowaniem mog³oby byæ zastosowanie rozpoznawania twarzy jako system dodatkowej weryfikacji osoby przy logowaniu do komputera. Samo rozpoznawanie twarzy ³atwo oszukaæ poprzez podstawienie zdjêcia chocia¿by w telefonie do obiektywu kamery, dlatego rozwi¹zanie takie nie jest bezpiecznym jako jedyna metoda weryfikacji osoby.
+	
+	System u¿yty mo¿e byæ równie¿ jako forma monitoringu w domu. Osoby upowa¿nione mog¹ poruszaæ siê po mieszaniu, nawet przy w³¹czonym alarmie, nie aktywuj¹c go. Osoba nieznana pojawiaj¹ca siê w obiektywie kamery wzbudza³a by alarm.
+	
+	\chapter{Perspektywy rozwoju systemu}
+	System na stan obecny posiada interfejs czêœciowo konsolowy. Dalsz¹ perspektyw¹ rozwoju projektu mog³oby byæ zastosowanie w pe³ni graficznego interfejsu. Usprawni³oby to funkcjonowanie u¿ytkownika w systemie.
+	
+	W przysz³oœci mo¿na zastosowaæ bardziej wydajne urz¹dzenie steruj¹ce, pozwalaj¹ce na efektywn¹ pracê systemu.
+	
+	\chapter*{Wnioski}
+	Projekt przyczyni³ siê do wzrostu naszej œwiadomoœci funkcjonowania systemów opartych o rozpoznawanie twarzy. Nauczyliœmy trzech metod rozpoznawania twarzy, z czego dwie zg³êbiliœmy w wiêkszym stopniu (FisherFace oraz LBPH). Mieliœmy mo¿liwoœæ zapoznania siê z bardzo zaawansowan¹ bibliotek¹ jak¹ jest OpenCV, posiadaj¹c¹ wiele przydatnych metod do obróbki grafiki. Jest to dla nas cenne doœwiadczenie, które bêdziemy rozwijaæ w dalszej przysz³oœci.
+	
 	
 \end{document}

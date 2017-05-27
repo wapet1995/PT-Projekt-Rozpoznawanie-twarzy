@@ -87,6 +87,7 @@ def detect_faces():
 if __name__ == '__main__':
     try:
         ip_server = raw_input("Podaj adres IP serwera: ")
+        Classifier_name = "wytrenowany_plik.mdl"
         # uruchomienie watkow odpowiedzialnych za wykonywanie klatek i wykrywanie twarzy
         thread.start_new_thread(make_frame, ())
         thread.start_new_thread(detect_faces, ())
@@ -94,9 +95,9 @@ if __name__ == '__main__':
         print "Wgrywanie klasyfikatora..."
         # wybor pliku z wytrenowanymi twarzami z poziomu komendy konsolowej
         if len(sys.argv) > 1:
-            recognizer.load(sys.argv[1])
-        else:
-            recognizer.load("wytrenowany_plik.mdl")
+			Classifier_name = sys.argv[1]
+        
+        recognizer.load(Classifier_name)
 
         while True:
             # czy liczba wykrytych twarzy jest zerem?
@@ -151,7 +152,7 @@ if __name__ == '__main__':
                 sys.exit(0)
             if key == 110:
                 print "Wgrywanie klasyfikatora..."
-                recognizer.load("wytrenowany_plik.mdl")
+                recognizer.load(Classifier_name)
     except Exception:
         if arg > 2:
             camera.release()

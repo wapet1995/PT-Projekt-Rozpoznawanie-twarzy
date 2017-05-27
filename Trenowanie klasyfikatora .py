@@ -99,8 +99,12 @@ def add_image(images, labels, choise="camera"):
                                 photo_take = True
                                 time.sleep(0.1)
                         else:
-                            cv2.putText(frame, "Oddal lub przybliz sie", (x + 5, y + 10),
-                                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
+                            if (w <= witdh_face + 50) and (h <= hight_face + 50):
+								cv2.putText(frame, "Przybliz sie", (x + 5, y + 10),
+											cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
+                            else:
+								cv2.putText(frame, "Oddal sie", (x + 5, y + 10),
+											cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
                 else:
                     if len(faces) > 1:
                         for (x, y, w, h) in faces:
