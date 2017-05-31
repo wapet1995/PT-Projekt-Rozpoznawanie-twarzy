@@ -160,7 +160,7 @@
 		\item CascadeClassifier("haarcascade\_frontalface\_alt.xml") ---
 		
 		Zwraca klasyfikator s³u¿¹cy do wykrywania twarzy. Klasyfikator wgrywany jest z pliku podanego w argumencie, jest to plik XML.
-		\newline
+		\newpage
 		\item cvtColor(frame, cv2.COLOR\_BGR2GRAY) ---
 		
 		Zwraca zmodyfikowany obraz, podany jako pierwszy parametr, w skali szaroœci.
@@ -218,9 +218,9 @@
 	
 	Skrypt Pythona podzielony zosta³ pomiêdzy w¹tki. Jeden w¹tek pobiera³ aktualne klatki z kamery. Drugi wykonywa³ wyszukiwanie twarzy na skopiowanym i zmodyfikowanym zdjêciu. Modyfikacja polega na sprowadzeniu obrazu do skali szaroœci.Trzeci w¹tek, g³ówny wykonuje rozpoznawanie twarzy oraz przygotowuje wynikowy obraz do wydrukowania na ekranie. 
 	
-	Pomimo takiego roz³o¿enia obci¹¿enia wci¹¿ operacje wykrywania i rozpoznawania twarzy zajmuj¹ du¿o czasu, oko³o 5 sekund. Problem zwi¹zany mo¿e byæ z~ograniczeniami karty graficznej oraz pamiêci ram urz¹dzenia. Rozwi¹zaniem jest utworzenie dodatkowych w¹tków operuj¹cych na ka¿dej twarzy osobno, powoduje niestety takie rozwi¹zanie bardzo czêste miganie ramek, przez co obraz jest nieczytelny. Problem z obrazem jest równie¿ odpowiednie dobranie kolorów tekstu i ramek.
+	Pomimo takiego roz³o¿enia obci¹¿enia wci¹¿ operacje wykrywania i rozpoznawania twarzy zajmuj¹ du¿o czasu, oko³o 5 sekund. Problem zwi¹zany mo¿e byæ z~ograniczeniami karty graficznej oraz pamiêci RAM urz¹dzenia. Rozwi¹zaniem jest utworzenie dodatkowych w¹tków operuj¹cych na ka¿dej twarzy osobno, powoduje niestety takie rozwi¹zanie bardzo czêste miganie ramek, przez co obraz jest nieczytelny. Problem z obrazem jest równie¿ odpowiednie dobranie kolorów tekstu i ramek.
 	
-	Inn¹ napotkan¹ trudnoœci¹ jest wielkoœæ pliku z klasyfikatorem rozpoznaj¹cym twarze. Chc¹c uzyskaæ dok³adniejsze wyniki rozpoznawania twarzy algorytmem LBPH nale¿a³o zwiêkszyæ parametr neighbors z 8 do co najmniej 10, skutkuje to znacznym wzrostem pamiêci jak¹ zajmuje plik. Zak³adaj¹c parametr ustawiony na wartoœæ 8, dokument zajmuje oko³o 50 MB przy wczytanych 260 zdjêciach, zmieniaj¹c wartoœæ na 10 rozmiar pliku wzrasta do 107 MB. Jest to zagro¿enie, gdy dodaj¹c nowe zdjêcia osób przekroczymy dostêpn¹ pamiêæ ram Raspberry Pi. Do dyspozycji mamy 1 GB RAMu, ale nale¿y odj¹æ od tej wartoœci pamiêæ wspó³dzielon¹ dla karty graficznej (oko³o 400 MB) plus pamiêæ zarezerwowan¹ na system operacyjny.
+	Inn¹ napotkan¹ trudnoœci¹ jest wielkoœæ pliku z klasyfikatorem rozpoznaj¹cym twarze. Chc¹c uzyskaæ dok³adniejsze wyniki rozpoznawania twarzy algorytmem LBPH nale¿a³o zwiêkszyæ parametr neighbors z 8 do co najmniej 10, skutkuje to znacznym wzrostem pamiêci jak¹ zajmuje plik. Zak³adaj¹c parametr ustawiony na wartoœæ 8, dokument zajmuje oko³o 50 MB przy wczytanych 260 zdjêciach, zmieniaj¹c wartoœæ na 10 rozmiar pliku wzrasta do 107 MB. Jest to zagro¿enie, gdy dodaj¹c nowe zdjêcia osób przekroczymy dostêpn¹ pamiêæ RAM Raspberry Pi. Do dyspozycji mamy 1 GB RAMu, ale nale¿y odj¹æ od tej wartoœci pamiêæ wspó³dzielon¹ dla karty graficznej (oko³o 400 MB) plus pamiêæ zarezerwowan¹ na system operacyjny.
 	
 	Problem równie¿ jest z tworzeniem klasyfikatora. Jest to operacja wymagaj¹ca wiêkszej mocy obliczeniowej urz¹dzenia. Z tego powodu przeniesiono tworzenie klasyfikatora na osobny komputer posiadaj¹cy wiêksze mo¿liwoœci. Kod programu trenuj¹cego jest przeznaczony równie¿ do pracy na Raspberry, lecz nie jest to zalecane, poniewa¿ istnieje du¿e prawdopodobieñstwo zape³nienia pamiêci RAM co skutkuje wy³¹czeniem lub zawieszeniem siê urz¹dzenia.
 	
@@ -243,7 +243,7 @@
 	\section{Rozpoznawanie i zliczanie twarzy.py}
 	Tak jak zosta³o przedstawione w rozdziale wczeœniej, program \linebreak,,Rozpoznawanie~i~zliczanie~twarzy'' uruchamia siê poleceniem \linebreak\textit{python Rozpoznawanie\ i\ zliczanie\ twarzy} w wersji Linuksowej (raspbian) lub \linebreak\textit{python ''Rozpoznawanie i zliczanie twarzy''}. Forma wywo³ania polecenia wymaga specjalnej formy, poniewa¿ znajduj¹ siê w niej spacje pomiêdzy wyrazami. Program posiada parametry, domyœlnie przy niepodaniu ¿adnego jest to u¿ycie pliku klasyfikatora o nazwie ,,wytrenowany\_plik.mdl'' oraz u¿ycie kamery dedykowanej dla Raspberry. U¿ycie innego zdefiniowanego klasyfikatora wymaga podania po nazwie programu œcie¿ki do pliku z danym klasyfikatorem. Program zaimplementowany jest równie¿ tak, aby móg³ dzia³aæ na urz¹dzeniach innych od Raspberry, w tym wypadku nale¿y w podaæ zawsze nazwê pliku klasyfikatora (nawet jeœli u¿yty zostanie domyœlny) oraz podaæ po tym parametrze s³owo ,,camera''. Zostanie w tym wypadku uruchomiona domyœlna kamera ustawiona w systemie.
 	
-	Po wywo³aniu programu w konsoli pojawi siê proœba o podanie adresu IP pod którym nas³uchuje bazy danych. Program nie posiada zabezpieczenia przed niepoprawnym wpisaniem adresu. Podanie b³êdnego IP wp³ynie na dalsze dzia³anie programu. Chc¹c poprawiæ adres IP nale¿y uruchomiæ program od pocz¹tku. Nastêpnym krokiem jest wczytanie klasyfikatora rozpoznaj¹cego twarz z pliku. Operacja ta mo¿e potrwaæ d³u¿sz¹ chwilê w zale¿noœci od wielkoœci pliku jak i parametrów pamiêci ram urz¹dzenia. Rysunek \ref{fig:podanie_IP} i Rysunek \ref{fig:podanie_IP2} przedstawiaj¹ widok programu z poprawnie podanym adresem IP oraz w trakcie wczytywania klasyfikatora.
+	Po wywo³aniu programu w konsoli pojawi siê proœba o podanie adresu IP pod którym nas³uchuje bazy danych. Program nie posiada zabezpieczenia przed niepoprawnym wpisaniem adresu. Podanie b³êdnego IP wp³ynie na dalsze dzia³anie programu. Chc¹c poprawiæ adres IP nale¿y uruchomiæ program od pocz¹tku. Nastêpnym krokiem jest wczytanie klasyfikatora rozpoznaj¹cego twarz z pliku. Operacja ta mo¿e potrwaæ d³u¿sz¹ chwilê w zale¿noœci od wielkoœci pliku jak i parametrów pamiêci RAM urz¹dzenia. Rysunek \ref{fig:podanie_IP} i Rysunek \ref{fig:podanie_IP2} przedstawiaj¹ widok programu z poprawnie podanym adresem IP oraz w trakcie wczytywania klasyfikatora.
 	
 	\begin{figure}[!h]
 		\centering
