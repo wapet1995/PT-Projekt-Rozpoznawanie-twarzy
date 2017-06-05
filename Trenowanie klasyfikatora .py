@@ -215,31 +215,7 @@ if __name__ == '__main__':
     while True:
         images, labels = [], []
         is_all_persons = False
-        while not is_all_persons: 
-		 
-		  
-		   
-		    
-			 
-			  
-			    
-			    
-				  
-				  
-				   
-				      
-					   
-					     
-						  
-						  
-						   
-						    
-						 
-						  
-						   
-						     
-							 
-							  
+        while not is_all_persons: 				  
             choise = raw_input("Wybierz sposob dodawania: \n\t camera - dodanie zdjec bezposrednio z kamery, "
                                "\n\t <pelna sciezka folderu> - pelna sciezka do folderu z nowymi zdjeciami \n\t q - "
                                "wyjscie z programu \n wybor: ")
